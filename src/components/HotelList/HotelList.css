@@ -1,0 +1,25 @@
+.hotel-list {
+  height: 60%;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: #87878733;
+}
+
+.hotel-list-block {
+  display: flex;
+  align-items: center;
+}
+
+.hotels-card-body-icon {
+  width: 64px;
+  height: 64px;
+  margin-right: 20px;
+  background-color: #41522e0d;
+  background-image: url("../../assets/images/house.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 50%;
+}
