@@ -1,4 +1,8 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { StackNavigationProp } from '@react-navigation/stack';
 
 import { Formik } from "formik";
 import {
@@ -11,19 +15,47 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 
-export const LoginForm = () => {
+
+// type Props = {
+//   navigation: StackNavigationProp<StackParamList, 'CalendarScreen'>;
+// }
+
+export const LoginForm = (  ) => {
+
   const [loginDirty, setLoginDirty] = useState(false);
   const [passwordDirty, setPasswordDirty] = useState(false);
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("Логин не может быть пустым");
-  const [passwordError, setPasswordError] = useState(
-    "Пароль не может быть пустым"
-  );
+  const [passwordError, setPasswordError] = useState("Пароль не может быть пустым");
   const [formValid, setFormValid] = useState(false);
 
   const passMark = 'password'
   const logMark = 'login'
+
+  const storeData = async (key: string, value: string) => {
+    try {
+      await AsyncStorage.setItem(key, value)
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  const formSubmitHandle = () => {
+      storeData("user", login);
+      // getData()
+  }
+
+  // const getData = async () => {
+  //   try {
+  //     const result = await AsyncStorage.getItem('user')
+  //     console.log(result)
+
+  //   } catch(e) {
+  //     console.error(e)
+  //   }
+  // }
+
 
   return (      
 
@@ -34,14 +66,14 @@ export const LoginForm = () => {
   >
     <Formik
       initialValues={{ login: login, password: password }}
-      onSubmit={values => console.log(values)}
+      onSubmit={formSubmitHandle}
     >
       {(formikProps) => {
         const {  handleSubmit, handleChange, values } = formikProps;
 
         const loginHandler = (value: string) => {
+
           setLogin(value);
-          console.log(login)
           const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
           if (!re.test(String(value).toLowerCase())) {
             setLoginError("Некорректный логин");
@@ -55,8 +87,8 @@ export const LoginForm = () => {
         };
       
         const passwordHandler = (value: string) => {
-          setPassword(value);
 
+          setPassword(value);
           const re = /[a-zA-Z0-9]+/;
           if (value.length < 8 || !re.test(String(value))) {
             setPasswordError("Некорректный пароль");
@@ -90,22 +122,13 @@ export const LoginForm = () => {
           }
         }, [loginError, passwordError]);
       
-        const formSubmitHandle = useCallback(
-          (e) => {
-            e.preventDefault();
-            localStorage.setItem("user", login);
-            console.log(login)
-          },
-          [login]
-        );
-
         const onChange = (value: string, type: string) => {
           handleChange(type)(value);
           if (type === 'login') { loginHandler(value); } else (passwordHandler(value));
         };
 
         return (
-          <View>
+          <View >
 
             <Text style={styles.loginFormTitle}> Simple Hotel Check </Text>
 
@@ -117,27 +140,27 @@ export const LoginForm = () => {
               onBlur={() => blurHandler(logMark)}
             />
             <Text>
-              {loginDirty && loginError && <Text>{loginError}</Text>}
+              {loginDirty && loginError && <Text style={styles.error} >{loginError}</Text>}
             </Text>
 
             <Text style={styles.loginFormLabel}> Пароль </Text>
             <TextInput
               style={styles.loginFormInput}
-              // type="password"
+              secureTextEntry={true}
               value={values.password}
               onChangeText={(value) => onChange(value, 'password')}
               onBlur={() => blurHandler(passMark)}
             />
             <Text>
-              {passwordDirty && passwordError && <Text>{passwordError}</Text>}
+              {passwordDirty && passwordError && <Text style={styles.error} >{passwordError}</Text>}
             </Text>
 
             <TouchableOpacity
               disabled={!formValid}
-              style={styles.loginFormButton}
+              style={{ opacity:  !formValid ? 0.5 : 1}}
               onPress={handleSubmit}
             >
-              <Text> Войти </Text>
+              <Text style={styles.loginFormButton} > Войти </Text>
             </TouchableOpacity>
 
           </View>
@@ -152,58 +175,52 @@ export const LoginForm = () => {
 const styles = StyleSheet.create({
   loginForm: {
     position: "absolute",
-    display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    // width: '409px',
-    // height: '382px',
     padding: 32,
     fontWeight: "300",
     backgroundColor: "#fff",
-    // borderRadius: '16px',
-    // boxShadow: 0 4px 33px rgba(0 0 0 4%),
-    // top: calc(50% - 382px / 2);
-    // left: calc(50% - 409px / 2 - 0.5px);
   },
+
   loginFormTitle: {
     marginBottom: 30,
     color: "#424242",
-    // -webkit-text-stroke: 1px solid #000;
     fontWeight: "500",
     fontSize: 24,
-    // fontFamily: 'Roboto, sans-serif',
     fontStyle: "normal",
     lineHeight: 28,
     textAlign: "center",
   },
+
   loginFormLabel: {
     position: "relative",
     color: "#424242",
     fontWeight: "300",
     fontSize: 16,
-    // fontFamily: 'Roboto, sans-serif',
     lineHeight: 19,
   },
 
   loginFormInput: {
     width: 345,
     height: 50,
-    marginBottom: 24,
-    padding: 16,
+    marginBottom: 5,
+    paddingHorizontal: 20,
     fontSize: 20,
     borderWidth: 1,
     borderRadius: 4,
   },
+
   loginFormButton: {
-    width: 345,
-    height: 50,
-    color: "#fff",
-    fontWeight: "500",
-    fontSize: 16,
-    lineHeight: 20,
-    // background: linear-gradient(104.34deg, #41522e -15.34%, #be8022 145.95%);
-    borderRadius: 8,
-    // boxShadow: '0 0 2px rgba(0 0 0 15%)',
+    fontSize: 20,
+    justifyContent: "center",
+    textAlign: "center"
+  },
+
+  error: {
+    justifyContent: "center",
+    textAlign: "center",
+    color: 'red',
+    marginBottom: 5,
   },
 });
