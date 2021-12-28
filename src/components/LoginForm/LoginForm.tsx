@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 
 import { Formik } from "formik";
 import {
@@ -9,13 +9,9 @@ import {
   TouchableOpacity,
   Keyboard,
   TouchableWithoutFeedback,
-  NativeSyntheticEvent,
-  TextInputFocusEventData,
 } from "react-native";
 
 export const LoginForm = () => {
-  const loginRef = useRef(null);
-  const passwordRef = useRef(null);
   const [loginDirty, setLoginDirty] = useState(false);
   const [passwordDirty, setPasswordDirty] = useState(false);
   const [login, setLogin] = useState("");
@@ -26,113 +22,130 @@ export const LoginForm = () => {
   );
   const [formValid, setFormValid] = useState(false);
 
-  useEffect(() => {
-    if (loginError || passwordError) {
-      setFormValid(false);
-    } else {
-      setFormValid(true);
-    }
-  }, [loginError, passwordError]);
+  const passMark = 'password'
+  const logMark = 'login'
 
-  const loginHandler = (value: string) => {
-    setLogin(value);
-    const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-    if (!re.test(String(value).toLowerCase())) {
-      setLoginError("Некорректный логин");
-      return;
-    }
-    if (!value) {
-      setLoginError("Логин не может быть пустым");
-    } else {
-      setLoginError("");
-    }
-  };
+  return (      
 
-  const passwordHandler = (value: string) => {
-    setPassword(value);
-    const re = /[a-zA-Z0-9]+/;
-    if (value.length < 8 || !re.test(String(value))) {
-      setPasswordError("Некорректный пароль");
-      return;
-    }
-    if (!value) {
-      setPasswordError("Пароль не может быть пустым");
-    } else {
-      setPasswordError("");
-    }
-  };
-
-  const blurHandler = (name: NativeSyntheticEvent<TextInputFocusEventData>) => {
-    switch (name) {
-      case loginRef:
-        setLoginDirty(true);
-        break;
-      case passwordRef:
-        setPasswordDirty(true);
-        break;
-      default:
-        break;
-    }
-  };
-
-  const formSubmitHandle = useCallback(
-    (e) => {
-      e.preventDefault();
-      localStorage.setItem("user", login);
-    },
-    [login]
-  );
-
-  return (
+  <TouchableWithoutFeedback
+    style={styles.loginForm}
+    activeOpacity={1}
+    onPress={Keyboard.dismiss}
+  >
     <Formik
       initialValues={{ login: login, password: password }}
-      onSubmit={formSubmitHandle}
+      onSubmit={values => console.log(values)}
     >
-      <TouchableWithoutFeedback
-        style={styles.loginForm}
-        activeOpacity={1}
-        onPress={Keyboard.dismiss}
-      >
-        <View>
-          <View style={styles.loginFormTitle}>
-            <Text>Simple Hotel Check</Text>
-          </View>
-          <View>
-            <Text style={styles.loginFormLabel}>Логин</Text>
+      {(formikProps) => {
+        const {  handleSubmit, handleChange, values } = formikProps;
 
+        const loginHandler = (value: string) => {
+          setLogin(value);
+          console.log(login)
+          const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+          if (!re.test(String(value).toLowerCase())) {
+            setLoginError("Некорректный логин");
+            return;
+          }
+          if (!value) {
+            setLoginError("Логин не может быть пустым");
+          } else {
+            setLoginError("");
+          }
+        };
+      
+        const passwordHandler = (value: string) => {
+          setPassword(value);
+
+          const re = /[a-zA-Z0-9]+/;
+          if (value.length < 8 || !re.test(String(value))) {
+            setPasswordError("Некорректный пароль");
+            return;
+          }
+          if (!value) {
+            setPasswordError("Пароль не может быть пустым");
+          } else {
+            setPasswordError("");
+          }
+        };
+      
+        const blurHandler = (name: string) => {
+          switch (name) {
+            case 'login':
+              setLoginDirty(true);
+              break;
+            case 'password':
+              setPasswordDirty(true);
+              break;
+            default:
+              break;
+          }
+        };
+
+        useEffect(() => {
+          if (loginError || passwordError) {
+            setFormValid(false);
+          } else {
+            setFormValid(true);
+          }
+        }, [loginError, passwordError]);
+      
+        const formSubmitHandle = useCallback(
+          (e) => {
+            e.preventDefault();
+            localStorage.setItem("user", login);
+            console.log(login)
+          },
+          [login]
+        );
+
+        const onChange = (value: string, type: string) => {
+          handleChange(type)(value);
+          if (type === 'login') { loginHandler(value); } else (passwordHandler(value));
+        };
+
+        return (
+          <View>
+
+            <Text style={styles.loginFormTitle}> Simple Hotel Check </Text>
+
+            <Text style={styles.loginFormLabel}> Логин </Text>
             <TextInput
               style={styles.loginFormInput}
-              // type="email"
-              ref={loginRef}
-              value={login}
-              onChangeText={(text) => loginHandler(text)}
-              onBlur={(ref) => console.log(ref)}
+              value={values.login}
+              onChangeText={(value) => onChange(value, 'login')}
+              onBlur={() => blurHandler(logMark)}
             />
-            <Text>{loginDirty && loginError && <Text>{loginError}</Text>}</Text>
-          </View>
-          <View>
-            <Text style={styles.loginFormLabel}>Пароль</Text>
+            <Text>
+              {loginDirty && loginError && <Text>{loginError}</Text>}
+            </Text>
+
+            <Text style={styles.loginFormLabel}> Пароль </Text>
             <TextInput
               style={styles.loginFormInput}
               // type="password"
-              ref={passwordRef}
-              value={password}
-              onChangeText={(text) => passwordHandler(text)}
-              onBlur={(passwordRef) => blurHandler(passwordRef)}
+              value={values.password}
+              onChangeText={(value) => onChange(value, 'password')}
+              onBlur={() => blurHandler(passMark)}
             />
             <Text>
               {passwordDirty && passwordError && <Text>{passwordError}</Text>}
             </Text>
+
+            <TouchableOpacity
+              disabled={!formValid}
+              style={styles.loginFormButton}
+              onPress={handleSubmit}
+            >
+              <Text> Войти </Text>
+            </TouchableOpacity>
+
           </View>
-          <TouchableOpacity
-            disabled={!formValid}
-            style={styles.loginFormButton}
-          >
-            <Text> Войти </Text>
-          </TouchableOpacity>
-        </View>
-      </TouchableWithoutFeedback>
+        )
+      }}
+      
     </Formik>
+    </TouchableWithoutFeedback>
   );
 };
 
