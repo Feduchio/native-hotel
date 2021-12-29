@@ -90,7 +90,7 @@ export function addFavoriteHotel(id: AddFavoriteHotelActionPayload) {
 }
 
 
-function* hotelListSaga({ payload: params }) {
+function* hotelListSaga({ payload: params }): Generator<>{
   try {
     const hotels = yield call(api.hotelList, {
       location: params?.location || "Moscow",
