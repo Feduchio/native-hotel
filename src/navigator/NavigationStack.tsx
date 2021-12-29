@@ -5,39 +5,43 @@ import { ImageBackground, Text, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { LoginScreen } from '../screens/LoginScreen';
-// import { SearchScreen } from '../screens/searchScreen';
 import { StackParamList } from './types';
-
+import { SearchScreen } from '../screens/SearchScreen';
 
 const Stack = createStackNavigator<StackParamList>();
-
 
 export function NavigationStack() { 
 
     const [ isLogin, setIsLogin] = useState(false)
-    
+    const res =  AsyncStorage.getItem('user')
+
     const getData = async () => {
         try {
-          const res = await AsyncStorage.getItem('user')
+          await res
           console.log(res)
-          if (res !== ''){
+          if (res !== ''){ 
+              //  setIsLogin(true)
               return res
           }
           console.log(res)
     
         } catch(e) {
-          console.error(e)
+          console.error(e) 
         }
       }
 
     useEffect(() => {  
         getData()
-    }, [])
+    }, [res])
 
     return(
-        <View>
-        {!getData ? <Text> heh </Text> : (<LoginScreen />) }
-        </View>
+        <Stack.Navigator>
+        {!isLogin
+         ? <Stack.Screen name='LoginScreen' component={LoginScreen} />
+           : <Stack.Screen name='SearchScreen' component={SearchScreen} />
+        }
+        </Stack.Navigator>
          
     )
 }
+

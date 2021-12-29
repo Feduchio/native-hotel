@@ -1,4 +1,4 @@
-import { Image, View, Text } from "react-native";
+import { Image, View, Text, StyleSheet } from "react-native";
 
 // import logoutImg from "../../assets/images/logoutImg.svg";
 
@@ -6,8 +6,8 @@ import { Image, View, Text } from "react-native";
 export const SearchScreen = () => {
 
   return (
-    <View>
-      <Text>atlishna</Text>
+    <View style={styles.searchScreen}>
+      <Text >atlishna</Text>
     </View>
     // <div className="search-page">
     //   <header className="search-page-header">
@@ -32,6 +32,14 @@ export const SearchScreen = () => {
     // </div>
   );
 };
+
+const styles = StyleSheet.create({
+  searchScreen: {
+    
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
 
 // .search-page {
 //   position: fixed;

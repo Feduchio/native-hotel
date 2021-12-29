@@ -13,6 +13,7 @@ import {
   TouchableOpacity,
   Keyboard,
   TouchableWithoutFeedback,
+  TouchableOpacityBase,
 } from "react-native";
 
 
@@ -20,7 +21,7 @@ import {
 //   navigation: StackNavigationProp<StackParamList, 'CalendarScreen'>;
 // }
 
-export const LoginForm = (  ) => {
+export const LoginForm = () => {
 
   const [loginDirty, setLoginDirty] = useState(false);
   const [passwordDirty, setPasswordDirty] = useState(false);
@@ -42,8 +43,8 @@ export const LoginForm = (  ) => {
   }
 
   const formSubmitHandle = () => {
-      storeData("user", login);
-      // getData()
+    storeData("user", login);
+    // getData()
   }
 
   // const getData = async () => {
@@ -57,19 +58,19 @@ export const LoginForm = (  ) => {
   // }
 
 
-  return (      
+  return (
 
-  <TouchableWithoutFeedback
-    style={styles.loginForm}
-    activeOpacity={1}
-    onPress={Keyboard.dismiss}
-  >
+    <TouchableOpacity
+      style={styles.loginForm}
+      onPress={() => Keyboard.dismiss()}
+      activeOpacity={1}
+    >
     <Formik
       initialValues={{ login: login, password: password }}
       onSubmit={formSubmitHandle}
     >
       {(formikProps) => {
-        const {  handleSubmit, handleChange, values } = formikProps;
+        const { handleSubmit, handleChange, values } = formikProps;
 
         const loginHandler = (value: string) => {
 
@@ -85,7 +86,7 @@ export const LoginForm = (  ) => {
             setLoginError("");
           }
         };
-      
+
         const passwordHandler = (value: string) => {
 
           setPassword(value);
@@ -100,7 +101,7 @@ export const LoginForm = (  ) => {
             setPasswordError("");
           }
         };
-      
+
         const blurHandler = (name: string) => {
           switch (name) {
             case 'login':
@@ -121,17 +122,17 @@ export const LoginForm = (  ) => {
             setFormValid(true);
           }
         }, [loginError, passwordError]);
-      
+
         const onChange = (value: string, type: string) => {
           handleChange(type)(value);
           if (type === 'login') { loginHandler(value); } else (passwordHandler(value));
+          
         };
 
         return (
-          <View >
-
+          <View style={styles.container}>
             <Text style={styles.loginFormTitle}> Simple Hotel Check </Text>
-
+            
             <Text style={styles.loginFormLabel}> Логин </Text>
             <TextInput
               style={styles.loginFormInput}
@@ -140,7 +141,7 @@ export const LoginForm = (  ) => {
               onBlur={() => blurHandler(logMark)}
             />
             <Text>
-              {loginDirty && loginError && <Text style={styles.error} >{loginError}</Text>}
+              {loginDirty && loginError && <Text style={styles.error}> {loginError} </Text>}
             </Text>
 
             <Text style={styles.loginFormLabel}> Пароль </Text>
@@ -152,12 +153,12 @@ export const LoginForm = (  ) => {
               onBlur={() => blurHandler(passMark)}
             />
             <Text>
-              {passwordDirty && passwordError && <Text style={styles.error} >{passwordError}</Text>}
+              {passwordDirty && passwordError && <Text style={styles.error}> {passwordError} </Text>}
             </Text>
 
             <TouchableOpacity
               disabled={!formValid}
-              style={{ opacity:  !formValid ? 0.5 : 1}}
+              style={{ opacity: !formValid ? 0.5 : 1 }}
               onPress={handleSubmit}
             >
               <Text style={styles.loginFormButton} > Войти </Text>
@@ -166,16 +167,17 @@ export const LoginForm = (  ) => {
           </View>
         )
       }}
-      
+
     </Formik>
-    </TouchableWithoutFeedback>
+  </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    // position: "relative"
+  },
   loginForm: {
-    position: "absolute",
-    flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
     padding: 32,
@@ -184,7 +186,7 @@ const styles = StyleSheet.create({
   },
 
   loginFormTitle: {
-    marginBottom: 30,
+    marginVertical: 30,
     color: "#424242",
     fontWeight: "500",
     fontSize: 24,
@@ -194,6 +196,7 @@ const styles = StyleSheet.create({
   },
 
   loginFormLabel: {
+    marginHorizontal: "5%",
     position: "relative",
     color: "#424242",
     fontWeight: "300",
@@ -202,9 +205,11 @@ const styles = StyleSheet.create({
   },
 
   loginFormInput: {
-    width: 345,
+
+    width: 350,
     height: 50,
     marginBottom: 5,
+    marginHorizontal: '5%',
     paddingHorizontal: 20,
     fontSize: 20,
     borderWidth: 1,
@@ -212,6 +217,7 @@ const styles = StyleSheet.create({
   },
 
   loginFormButton: {
+    marginVertical: 10,
     fontSize: 20,
     justifyContent: "center",
     textAlign: "center"
