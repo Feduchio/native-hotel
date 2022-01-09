@@ -1,49 +1,54 @@
-import { ADD_FAVORITE_HOTEL_ACTION, HOTEL_LIST_ACTION, HOTEL_LIST_SUCCESS_ACTION, SEARCH_FORM_SUBMIT_ACTION } from "./searchingHotels";
+import {
+  ADD_FAVORITE_HOTEL_ACTION,
+  HOTEL_LIST_ACTION,
+  HOTEL_LIST_SUCCESS_ACTION,
+  SEARCH_FORM_SUBMIT_ACTION,
+} from "./searchingHotels";
 
 export interface HotelsState {
-    hotelList: [];
-    valueSearchForm: {},
-    favoriteHotels: [],
+  hotelList: [];
+  valueSearchForm: {};
+  favoriteHotels: [];
 }
 
 export interface HotelListActionPayload {
-    params: {},
+  params: {};
 }
 
 export interface HotelListSuccActionPayload {
-    hotels: {},
+  hotels: {};
 }
 
 export interface SearchFormSubmitActionPayload {
-    params: {},
+  params: {};
 }
 
 export interface AddFavoriteHotelActionPayload {
-    id: number;
+  id: number;
 }
 
 export type HotelListAction = {
-    type: typeof HOTEL_LIST_ACTION;
-    payload: HotelListActionPayload;
+  type: typeof HOTEL_LIST_ACTION;
+  payload: HotelListActionPayload;
 };
 
 export type HotelListSuccAction = {
-    type: typeof HOTEL_LIST_SUCCESS_ACTION;
-    payload: HotelListSuccActionPayload;
+  type: typeof HOTEL_LIST_SUCCESS_ACTION;
+  payload: HotelListSuccActionPayload;
 };
 
 export type SearchFormSubmitAction = {
-    type: typeof SEARCH_FORM_SUBMIT_ACTION;
-    payload: SearchFormSubmitActionPayload;
+  type: typeof SEARCH_FORM_SUBMIT_ACTION;
+  payload: SearchFormSubmitActionPayload;
 };
 
 export type AddFavoriteHotelAction = {
-    type: typeof ADD_FAVORITE_HOTEL_ACTION;
-    payload: AddFavoriteHotelActionPayload;
+  type: typeof ADD_FAVORITE_HOTEL_ACTION;
+  payload: AddFavoriteHotelActionPayload;
 };
 
 export type HotelsActions =
-    | HotelListAction
-    | HotelListSuccAction
-    | SearchFormSubmitAction
-    | AddFavoriteHotelAction;
+  | HotelListAction
+  | HotelListSuccAction
+  | SearchFormSubmitAction
+  | AddFavoriteHotelAction;

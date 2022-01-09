@@ -1,13 +1,6 @@
-import { all } from 'typed-redux-saga';
+import { takeLatest } from "typed-redux-saga";
+import { hotelListSaga, HOTEL_LIST_ACTION } from "./ducks/searchingHotels";
 
-import { saga as getBookingSaga } from './ducks/bookings';
-import { saga as googleAccessSaga } from './ducks/googleAccess';
-import { saga as errorSaga } from './ducks/error';
-
-export default function* saga() {
-  yield* all([
-    getBookingSaga(),
-    googleAccessSaga(),
-    errorSaga(),
-  ]);
+export function* rootSaga() {
+  yield takeLatest(HOTEL_LIST_ACTION, hotelListSaga);
 }

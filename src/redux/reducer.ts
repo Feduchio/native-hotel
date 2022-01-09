@@ -1,13 +1,8 @@
-import { combineReducers } from 'redux';
-
-import bookingsReducer from './ducks/bookings';
-import googleAccessReducer from './ducks/googleAccess';
-import errorReducer from './ducks/error';
+import { combineReducers } from "redux";
+import hotelsReducer from "./ducks/searchingHotels";
 
 const reducer = combineReducers({
-  bookingsReducer,
-  googleAccessReducer,
-  errorReducer,
+  hotelsReducer,
 });
 
 export default reducer;

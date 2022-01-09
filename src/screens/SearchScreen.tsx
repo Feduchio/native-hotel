@@ -2,12 +2,10 @@ import { Image, View, Text, StyleSheet } from "react-native";
 
 // import logoutImg from "../../assets/images/logoutImg.svg";
 
-
 export const SearchScreen = () => {
-
   return (
     <View style={styles.searchScreen}>
-      <Text >atlishna</Text>
+      <Text>atlishna</Text>
     </View>
     // <div className="search-page">
     //   <header className="search-page-header">
@@ -35,7 +33,6 @@ export const SearchScreen = () => {
 
 const styles = StyleSheet.create({
   searchScreen: {
-    
     alignItems: "center",
     justifyContent: "center",
   },
@@ -88,4 +85,3 @@ const styles = StyleSheet.create({
 // .search-page-aside {
 //   width: 360px;
 // }
-
