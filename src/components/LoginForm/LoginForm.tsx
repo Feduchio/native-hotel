@@ -1,8 +1,4 @@
 import React, { useState, useEffect } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { StackNavigationProp } from "@react-navigation/stack";
 
 import { Formik } from "formik";
 import {
@@ -12,50 +8,30 @@ import {
   StyleSheet,
   TouchableOpacity,
   Keyboard,
-  TouchableWithoutFeedback,
-  TouchableOpacityBase,
 } from "react-native";
-
-// type Props = {
-//   navigation: StackNavigationProp<StackParamList, 'CalendarScreen'>;
-// }
+import { useDispatch, useSelector } from "react-redux";
+import { setUser, selectUserLogin } from "../../redux/ducks/searchingHotels";
 
 export const LoginForm = () => {
+  const dispatch = useDispatch();
+  const getLogin = useSelector(selectUserLogin)
+
   const [loginDirty, setLoginDirty] = useState(false);
   const [passwordDirty, setPasswordDirty] = useState(false);
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("Логин не может быть пустым");
-  const [passwordError, setPasswordError] = useState(
-    "Пароль не может быть пустым"
-  );
+  const [passwordError, setPasswordError] = useState( "Пароль не может быть пустым");
   const [formValid, setFormValid] = useState(false);
 
   const passMark = "password";
   const logMark = "login";
 
-  const storeData = async (key: string, value: string) => {
-    try {
-      await AsyncStorage.setItem(key, value);
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
   const formSubmitHandle = () => {
-    storeData("user", login);
-    // getData()
+    dispatch(setUser(login))
+    console.log(getLogin)
   };
 
-  // const getData = async () => {
-  //   try {
-  //     const result = await AsyncStorage.getItem('user')
-  //     console.log(result)
-
-  //   } catch(e) {
-  //     console.error(e)
-  //   }
-  // }
 
   return (
     <TouchableOpacity
@@ -128,7 +104,7 @@ export const LoginForm = () => {
 
           return (
             <View style={styles.container}>
-              <Text style={styles.loginFormTitle}> Simple Hotel Check </Text>
+              <Text style={styles.loginFormTitle}> Simple Hotel </Text>
 
               <Text style={styles.loginFormLabel}> Логин </Text>
               <TextInput
@@ -136,6 +112,7 @@ export const LoginForm = () => {
                 value={values.login}
                 onChangeText={(value) => onChange(value, "login")}
                 onBlur={() => blurHandler(logMark)}
+                autoCapitalize="none"
               />
               <Text>
                 {loginDirty && loginError && (
@@ -150,6 +127,7 @@ export const LoginForm = () => {
                 value={values.password}
                 onChangeText={(value) => onChange(value, "password")}
                 onBlur={() => blurHandler(passMark)}
+                autoCapitalize="none"
               />
               <Text>
                 {passwordDirty && passwordError && (

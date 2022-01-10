@@ -3,13 +3,14 @@ import { api } from "../../../api/api";
 import moment from "moment";
 import {
   AddFavoriteHotelActionPayload,
+  AddUserLoginActionPayload,
   HotelListActionPayload,
   HotelListSuccActionPayload,
   HotelsActions,
   HotelsState,
   SearchFormSubmitActionPayload,
 } from "./searchingHotelsTypes";
-import { RootState } from "../store";
+import { RootState } from "../reducer";
 
 const prefix = "searchingHotels/";
 
@@ -17,6 +18,7 @@ const prefix = "searchingHotels/";
  * Constants
  * */
 export const HOTEL_LIST_ACTION = `${prefix}HOTEL_LIST_ACTION` as const;
+export const SET_USER_LOGIN_ACTION = `${prefix}SET_USER_LOGIN_ACTION` as const;
 export const HOTEL_LIST_SUCCESS_ACTION =
   `${prefix}HOTEL_LIST_SUCCESS_ACTION` as const;
 export const SEARCH_FORM_SUBMIT_ACTION =
@@ -27,13 +29,15 @@ export const ADD_FAVORITE_HOTEL_ACTION =
 /**
  * Reducer
  * */
-const initialState: HotelsState = {
+
+ const initialState: HotelsState = {
+  userLogin: 'test@mail.com',
   hotelList: [],
   valueSearchForm: {},
   favoriteHotels: [],
 };
-
 export default function hotelsReducer(
+  
   state = initialState,
   action: HotelsActions
 ) {
@@ -44,6 +48,12 @@ export default function hotelsReducer(
         hotelList: action.payload,
       };
     }
+    case SET_USER_LOGIN_ACTION:{
+      return{
+        ...state,
+        userLogin: action.payload,
+      }
+    }
     case SEARCH_FORM_SUBMIT_ACTION: {
       return {
         ...state,
@@ -53,10 +63,10 @@ export default function hotelsReducer(
     case ADD_FAVORITE_HOTEL_ACTION: {
       const { favoriteHotels } = state;
       const isHotelInFavorites = favoriteHotels.find(
-        (hotel) => hotel.id === action.payload.id
+        (hotel: {id: number}) => hotel.id === action.payload.id
       );
       if (isHotelInFavorites) {
-        const newArr = favoriteHotels.filter((hotel) => {
+        const newArr = favoriteHotels.filter((hotel: {id: number}) => {
           return hotel.id !== action.payload.id;
         });
         return {
@@ -77,16 +87,19 @@ export default function hotelsReducer(
 /**
  * Selectors
  * */
-export const selectValueSearch = (state: { valueSearchForm: {} }) =>
-  state.valueSearchForm;
-export const selectHotels = (state: { hotelList: {} }) => state.hotelList;
-export const selectFavorites = (state: { favoriteHotels: {} }) =>
-  state.favoriteHotels;
+export const selectUserLogin = (state: RootState) => state.hotelsReducer.userLogin
+export const selectValueSearch = (state: RootState) => state.hotelsReducer.valueSearchForm;
+export const selectHotels = (state: RootState) => state.hotelsReducer.hotelList;
+export const selectFavorites = (state: RootState) => state.hotelsReducer.favoriteHotels;
 
 /**
  * Action Creators
  * */
-export function getHotelsList(params: HotelListActionPayload) {
+ export function setUser(login: string) {
+  return { type: SET_USER_LOGIN_ACTION, payload: login };
+}
+
+export function getHotelsList(params: { location: string; checkIn: string; countOfDays: number; }) {
   return { type: HOTEL_LIST_ACTION, payload: params };
 }
 
@@ -94,13 +107,17 @@ export function hotelListSuccess(hotels: HotelListSuccActionPayload) {
   return { type: HOTEL_LIST_SUCCESS_ACTION, payload: hotels };
 }
 
-export function searchFormSubmit(params: SearchFormSubmitActionPayload) {
+export function searchFormSubmit(params: { location: string; checkIn: string; countOfDays: number; }) {
   return { type: SEARCH_FORM_SUBMIT_ACTION, payload: params };
 }
 
 export function addFavoriteHotel(id: AddFavoriteHotelActionPayload) {
   return { type: ADD_FAVORITE_HOTEL_ACTION, payload: id };
 }
+
+/**
+ * Sagas
+ * */
 
 export function* hotelListSaga({ payload: params }): Generator<{}> {
   try {

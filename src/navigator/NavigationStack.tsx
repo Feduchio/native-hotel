@@ -1,46 +1,36 @@
 import React, { useEffect, useState } from "react";
 import {
   createStackNavigator,
-  TransitionPresets,
 } from "@react-navigation/stack";
-import { connect } from "react-redux";
-import { ImageBackground, Text, View } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useSelector } from "react-redux";
 
 import { LoginScreen } from "../screens/LoginScreen";
 import { StackParamList } from "./types";
-import { SearchScreen } from "../screens/SearchScreen";
+import { MainScreen } from "../screens/MainScreen";
+import { selectUserLogin } from "../redux/ducks/searchingHotels";
 
 const Stack = createStackNavigator<StackParamList>();
 
 export function NavigationStack() {
-  const [isLogin, setIsLogin] = useState(false);
-  const res = AsyncStorage.getItem("user");
+  const initLogin = useSelector(selectUserLogin)
 
-  const getData = async () => {
-    try {
-      await res;
-      console.log(res);
-      if (res !== "") {
-        //  setIsLogin(true)
-        return res;
-      }
-      console.log(res);
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
-    getData();
-  }, [res]);
+    if(initLogin.length>3){
+    setIsLogin(true)
+    console.log(initLogin)}
+    else{
+      setIsLogin(false)
+    }
+  }, [initLogin]);
 
   return (
-    <Stack.Navigator>
+    <Stack.Navigator >
       {!isLogin ? (
-        <Stack.Screen name="LoginScreen" component={LoginScreen} />
+        <Stack.Screen options={{ title:"Авторизация", cardStyle: {alignItems: 'center'}}} name="LoginScreen" component={LoginScreen} />
       ) : (
-        <Stack.Screen name="SearchScreen" component={SearchScreen} />
+        <Stack.Screen options={{ title:"Simple Hotel"}} name="SearchScreen" component={MainScreen} />
       )}
     </Stack.Navigator>
   );

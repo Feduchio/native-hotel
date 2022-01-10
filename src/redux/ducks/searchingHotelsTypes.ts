@@ -1,19 +1,25 @@
 import {
   ADD_FAVORITE_HOTEL_ACTION,
+  ADD_USER_LOGIN_ACTION,
   HOTEL_LIST_ACTION,
   HOTEL_LIST_SUCCESS_ACTION,
   SEARCH_FORM_SUBMIT_ACTION,
 } from "./searchingHotels";
 
 export interface HotelsState {
-  hotelList: [];
-  valueSearchForm: {};
-  favoriteHotels: [];
+    userLogin: string,
+    hotelList: string[];
+    valueSearchForm: {};
+    favoriteHotels: [];
 }
 
 export interface HotelListActionPayload {
   params: {};
 }
+
+export interface AddUserLoginActionPayload {
+    params: string;
+  }
 
 export interface HotelListSuccActionPayload {
   hotels: {};
@@ -26,6 +32,11 @@ export interface SearchFormSubmitActionPayload {
 export interface AddFavoriteHotelActionPayload {
   id: number;
 }
+
+export type AddUserLoginAction = {
+    type: typeof ADD_USER_LOGIN_ACTION;
+    payload: AddUserLoginActionPayload;
+  };
 
 export type HotelListAction = {
   type: typeof HOTEL_LIST_ACTION;
@@ -48,6 +59,7 @@ export type AddFavoriteHotelAction = {
 };
 
 export type HotelsActions =
+  | AddUserLoginAction
   | HotelListAction
   | HotelListSuccAction
   | SearchFormSubmitAction

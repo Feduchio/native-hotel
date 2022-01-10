@@ -1,12 +1,30 @@
-import { Image, View, Text, StyleSheet } from "react-native";
+import { Image, View, Text, StyleSheet, Button } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser, selectUserLogin } from "../redux/ducks/searchingHotels";
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { FavoriteBlock } from "../components/FavoriteBlock/FavoriteBlock";
+import { SearchBlock } from "../components/SearchBlock/SearchBlock";
 
-// import logoutImg from "../../assets/images/logoutImg.svg";
+export const MainScreen = () => {
+  const dispatch = useDispatch()
+  const getLogin = useSelector(selectUserLogin)
 
-export const SearchScreen = () => {
-  return (
-    <View style={styles.searchScreen}>
+  const Drawer = createDrawerNavigator();
+  
+  const unlog = () => {
+    dispatch(setUser(''))
+    console.log(getLogin)
+  }
+  return (    
+
+    <View style={styles.searchScreen}>    
       <Text>atlishna</Text>
+      <Button title="unlog" onPress={unlog} />
+      <SearchBlock />
     </View>
+
+
+
     // <div className="search-page">
     //   <header className="search-page-header">
     //     <h1 className="search-page-header-title"> Simple Hotel Check</h1>
@@ -37,6 +55,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
 
 // .search-page {
 //   position: fixed;
