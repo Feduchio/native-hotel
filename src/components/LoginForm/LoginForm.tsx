@@ -14,24 +14,25 @@ import { setUser, selectUserLogin } from "../../redux/ducks/searchingHotels";
 
 export const LoginForm = () => {
   const dispatch = useDispatch();
-  const getLogin = useSelector(selectUserLogin)
+  const getLogin = useSelector(selectUserLogin);
 
   const [loginDirty, setLoginDirty] = useState(false);
   const [passwordDirty, setPasswordDirty] = useState(false);
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("Логин не может быть пустым");
-  const [passwordError, setPasswordError] = useState( "Пароль не может быть пустым");
+  const [passwordError, setPasswordError] = useState(
+    "Пароль не может быть пустым"
+  );
   const [formValid, setFormValid] = useState(false);
 
   const passMark = "password";
   const logMark = "login";
 
   const formSubmitHandle = () => {
-    dispatch(setUser(login))
-    console.log(getLogin)
+    dispatch(setUser(login));
+    console.log(getLogin);
   };
-
 
   return (
     <TouchableOpacity

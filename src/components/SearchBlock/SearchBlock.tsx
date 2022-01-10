@@ -1,12 +1,26 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import {  DatePicker, List,  } from "@ant-design/react-native";
-import { Calendar } from 'react-native-calendars';
+import { DatePicker, List } from "@ant-design/react-native";
+import { Calendar } from "react-native-calendars";
 import moment from "moment";
 
-import { getHotelsList, searchFormSubmit } from "../../redux/ducks/searchingHotels";
+import {
+  getHotelsList,
+  searchFormSubmit,
+} from "../../redux/ducks/searchingHotels";
 
-import { TouchableOpacity, View , Text, StyleSheet, Keyboard, Alert, TextInput, ListViewBase, Modal, Pressable} from "react-native";
+import {
+  TouchableOpacity,
+  View,
+  Text,
+  StyleSheet,
+  Keyboard,
+  Alert,
+  TextInput,
+  ListViewBase,
+  Modal,
+  Pressable,
+} from "react-native";
 import { Formik } from "formik";
 
 export const SearchBlock = () => {
@@ -31,32 +45,31 @@ export const SearchBlock = () => {
     setLocation(curr.charAt(0).toUpperCase() + curr.slice(1).toLowerCase());
   };
 
-  const dateChange = (date, dateString:string) => {
+  const dateChange = (date, dateString: string) => {
     setDate(dateString);
   };
 
   const daysChange = (value: string) => {
-    let invert = parseInt(value)
+    let invert = parseInt(value);
     setDays(invert);
   };
 
   return (
     <TouchableOpacity
-    // style={styles.loginForm}
-    onPress={() => Keyboard.dismiss()}
-    activeOpacity={1}
-  >
-    <Formik
-      initialValues={{ location: location, days: days }}
-      onSubmit={handleSearch}
+      // style={styles.loginForm}
+      onPress={() => Keyboard.dismiss()}
+      activeOpacity={1}
     >
-      {(formikProps) =>{
-
-        const { handleSubmit, handleChange, values } = formikProps;
-        const [modalVisible, setModalVisible] = useState(false);
-        return(
-        <View style={styles.container}>
-            <TextInput
+      <Formik
+        initialValues={{ location: location, days: days }}
+        onSubmit={handleSearch}
+      >
+        {(formikProps) => {
+          const { handleSubmit, handleChange, values } = formikProps;
+          const [modalVisible, setModalVisible] = useState(false);
+          return (
+            <View style={styles.container}>
+              <TextInput
                 style={styles.input}
                 value={values.location}
                 onChangeText={locationChange}
@@ -64,71 +77,66 @@ export const SearchBlock = () => {
                 placeholder="Локация"
               />
 
-        <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-          <Calendar />
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}
-            >
-              <Text style={styles.textStyle}>Hide Modal</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
-      <Pressable
-        style={[styles.button, styles.buttonOpen]}
-        onPress={() => setModalVisible(true)}
-      >
-        <Text style={styles.textStyle}>Show Modal</Text>
-      </Pressable>
-            
-  
-            <TextInput
-                          style={styles.input}
-               value={values.days}
-                onChangeText={daysChange}
-               autoCapitalize="none"
-               placeholder="Количество дней"
-              />
-  
-            <TouchableOpacity
-              onPress={handleSearch}
-            >
-              <Text > Найти </Text>
-            </TouchableOpacity>
+              <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                  Alert.alert("Modal has been closed.");
+                  setModalVisible(!modalVisible);
+                }}
+              >
+                <View style={styles.centeredView}>
+                  <View style={styles.modalView}>
+                    <Calendar />
+                    <Pressable
+                      style={[styles.button, styles.buttonClose]}
+                      onPress={() => setModalVisible(!modalVisible)}
+                    >
+                      <Text style={styles.textStyle}>Hide Modal</Text>
+                    </Pressable>
+                  </View>
+                </View>
+              </Modal>
+              <Pressable
+                style={[styles.button, styles.buttonOpen]}
+                onPress={() => setModalVisible(true)}
+              >
+                <Text style={styles.textStyle}>Show Modal</Text>
+              </Pressable>
 
-        </View>)
-      }}    
-</Formik>
-</TouchableOpacity>
+              <TextInput
+                style={styles.input}
+                value={values.days}
+                onChangeText={daysChange}
+                autoCapitalize="none"
+                placeholder="Количество дней"
+              />
+
+              <TouchableOpacity onPress={handleSearch}>
+                <Text> Найти </Text>
+              </TouchableOpacity>
+            </View>
+          );
+        }}
+      </Formik>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  input:{
-
+  input: {
     height: 30,
-    marginVertical:20,
-
+    marginVertical: 20,
   },
-  container:{
-    flexDirection: 'row',
+  container: {
+    flexDirection: "row",
   },
   centeredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22
+    marginTop: 22,
   },
   modalView: {
     margin: 20,
@@ -139,16 +147,16 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5
+    elevation: 5,
   },
   button: {
     borderRadius: 20,
     padding: 10,
-    elevation: 2
+    elevation: 2,
   },
   buttonOpen: {
     backgroundColor: "#F194FF",
@@ -159,13 +167,13 @@ const styles = StyleSheet.create({
   textStyle: {
     color: "white",
     fontWeight: "bold",
-    textAlign: "center"
+    textAlign: "center",
   },
   modalText: {
     marginBottom: 15,
-    textAlign: "center"
-  }
-})
+    textAlign: "center",
+  },
+});
 
 // .search-block {
 //   display: flex;

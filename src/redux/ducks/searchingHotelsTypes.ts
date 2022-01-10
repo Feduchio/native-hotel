@@ -7,10 +7,10 @@ import {
 } from "./searchingHotels";
 
 export interface HotelsState {
-    userLogin: string,
-    hotelList: string[];
-    valueSearchForm: {};
-    favoriteHotels: [];
+  userLogin: string;
+  hotelList: string[];
+  valueSearchForm: {};
+  favoriteHotels: [];
 }
 
 export interface HotelListActionPayload {
@@ -18,8 +18,8 @@ export interface HotelListActionPayload {
 }
 
 export interface AddUserLoginActionPayload {
-    params: string;
-  }
+  params: string;
+}
 
 export interface HotelListSuccActionPayload {
   hotels: {};
@@ -34,9 +34,9 @@ export interface AddFavoriteHotelActionPayload {
 }
 
 export type AddUserLoginAction = {
-    type: typeof ADD_USER_LOGIN_ACTION;
-    payload: AddUserLoginActionPayload;
-  };
+  type: typeof ADD_USER_LOGIN_ACTION;
+  payload: AddUserLoginActionPayload;
+};
 
 export type HotelListAction = {
   type: typeof HOTEL_LIST_ACTION;

@@ -30,14 +30,13 @@ export const ADD_FAVORITE_HOTEL_ACTION =
  * Reducer
  * */
 
- const initialState: HotelsState = {
-  userLogin: 'test@mail.com',
+const initialState: HotelsState = {
+  userLogin: "test@mail.com",
   hotelList: [],
   valueSearchForm: {},
   favoriteHotels: [],
 };
 export default function hotelsReducer(
-  
   state = initialState,
   action: HotelsActions
 ) {
@@ -48,11 +47,11 @@ export default function hotelsReducer(
         hotelList: action.payload,
       };
     }
-    case SET_USER_LOGIN_ACTION:{
-      return{
+    case SET_USER_LOGIN_ACTION: {
+      return {
         ...state,
         userLogin: action.payload,
-      }
+      };
     }
     case SEARCH_FORM_SUBMIT_ACTION: {
       return {
@@ -63,10 +62,10 @@ export default function hotelsReducer(
     case ADD_FAVORITE_HOTEL_ACTION: {
       const { favoriteHotels } = state;
       const isHotelInFavorites = favoriteHotels.find(
-        (hotel: {id: number}) => hotel.id === action.payload.id
+        (hotel: { id: number }) => hotel.id === action.payload.id
       );
       if (isHotelInFavorites) {
-        const newArr = favoriteHotels.filter((hotel: {id: number}) => {
+        const newArr = favoriteHotels.filter((hotel: { id: number }) => {
           return hotel.id !== action.payload.id;
         });
         return {
@@ -87,19 +86,26 @@ export default function hotelsReducer(
 /**
  * Selectors
  * */
-export const selectUserLogin = (state: RootState) => state.hotelsReducer.userLogin
-export const selectValueSearch = (state: RootState) => state.hotelsReducer.valueSearchForm;
+export const selectUserLogin = (state: RootState) =>
+  state.hotelsReducer.userLogin;
+export const selectValueSearch = (state: RootState) =>
+  state.hotelsReducer.valueSearchForm;
 export const selectHotels = (state: RootState) => state.hotelsReducer.hotelList;
-export const selectFavorites = (state: RootState) => state.hotelsReducer.favoriteHotels;
+export const selectFavorites = (state: RootState) =>
+  state.hotelsReducer.favoriteHotels;
 
 /**
  * Action Creators
  * */
- export function setUser(login: string) {
+export function setUser(login: string) {
   return { type: SET_USER_LOGIN_ACTION, payload: login };
 }
 
-export function getHotelsList(params: { location: string; checkIn: string; countOfDays: number; }) {
+export function getHotelsList(params: {
+  location: string;
+  checkIn: string;
+  countOfDays: number;
+}) {
   return { type: HOTEL_LIST_ACTION, payload: params };
 }
 
@@ -107,7 +113,11 @@ export function hotelListSuccess(hotels: HotelListSuccActionPayload) {
   return { type: HOTEL_LIST_SUCCESS_ACTION, payload: hotels };
 }
 
-export function searchFormSubmit(params: { location: string; checkIn: string; countOfDays: number; }) {
+export function searchFormSubmit(params: {
+  location: string;
+  checkIn: string;
+  countOfDays: number;
+}) {
   return { type: SEARCH_FORM_SUBMIT_ACTION, payload: params };
 }
 

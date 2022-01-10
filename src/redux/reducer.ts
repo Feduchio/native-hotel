@@ -7,10 +7,11 @@ const reducer = combineReducers({
 
 export default reducer;
 
-export type RootState =     { 
+export type RootState = {
   hotelsReducer: {
-    userLogin: string,
+    userLogin: string;
     hotelList: string[];
     valueSearchForm: {};
     favoriteHotels: [];
-  };}
+  };
+};

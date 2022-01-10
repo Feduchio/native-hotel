@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 import HotelCard from "../HotelCard/HotelCard";
 // import { selectFavorites } from "../../store/selectors";
-import { View, Text} from "react-native";
+import { View, Text } from "react-native";
 
 const FILTERS = { STARS: "stars", PRICE: "priceAvg" };
 
@@ -72,7 +72,6 @@ export const FavoriteBlock = () => {
     // </div>
   );
 };
-
 
 // .favorite-block {
 //   display: flex;
