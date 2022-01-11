@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { DatePicker, List } from "@ant-design/react-native";
 import { Calendar } from "react-native-calendars";
 import moment from "moment";
 
@@ -15,9 +14,7 @@ import {
   Text,
   StyleSheet,
   Keyboard,
-  Alert,
   TextInput,
-  ListViewBase,
   Modal,
   Pressable,
 } from "react-native";
@@ -29,6 +26,7 @@ export const SearchBlock = () => {
   const [date, setDate] = useState("");
   const [location, setLocation] = useState("Москва");
   const [days, setDays] = useState(1);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const handleSearch = () => {
     const searchFormValue = {
@@ -36,22 +34,10 @@ export const SearchBlock = () => {
       checkIn: date || moment().format("YYYY-MM-DD"),
       countOfDays: days,
     };
+    console.log(searchFormValue)
+    
     dispatch(getHotelsList(searchFormValue));
     dispatch(searchFormSubmit(searchFormValue));
-  };
-
-  const locationChange = (value: string) => {
-    const curr = value;
-    setLocation(curr.charAt(0).toUpperCase() + curr.slice(1).toLowerCase());
-  };
-
-  const dateChange = (date, dateString: string) => {
-    setDate(dateString);
-  };
-
-  const daysChange = (value: string) => {
-    let invert = parseInt(value);
-    setDays(invert);
   };
 
   return (
@@ -61,61 +47,86 @@ export const SearchBlock = () => {
       activeOpacity={1}
     >
       <Formik
-        initialValues={{ location: location, days: days }}
+        initialValues={{ location: '', days: '' }}
         onSubmit={handleSearch}
       >
         {(formikProps) => {
-          const { handleSubmit, handleChange, values } = formikProps;
-          const [modalVisible, setModalVisible] = useState(false);
+
+          const { handleChange, values } = formikProps;
+        
+          const locationChange = (value: string) => {
+            const curr = value;
+            setLocation(curr.charAt(0).toUpperCase() + curr.slice(1).toLowerCase());
+          };
+        
+          const dateChange = (dateString: string) => {
+            setDate(dateString);
+          };
+        
+          const daysChange = (value: string) => {
+            let invert = parseInt(value);
+            setDays(invert);
+          };
+
+          const onChange = (value: string, type: string) => {
+            handleChange(type)(value);
+            if (type === "location") {
+              locationChange(value);
+            } else if (type === "days") {
+              daysChange(value)
+            } else {
+              dateChange(value)
+              setModalVisible(!modalVisible)
+            };
+          };
+
           return (
             <View style={styles.container}>
+
               <TextInput
                 style={styles.input}
                 value={values.location}
-                onChangeText={locationChange}
+                onChangeText={(value) => onChange(value, "location")}
                 autoCapitalize="none"
-                placeholder="Локация"
+                placeholder="Location"
               />
-
-              <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                  Alert.alert("Modal has been closed.");
-                  setModalVisible(!modalVisible);
-                }}
-              >
-                <View style={styles.centeredView}>
-                  <View style={styles.modalView}>
-                    <Calendar />
-                    <Pressable
-                      style={[styles.button, styles.buttonClose]}
-                      onPress={() => setModalVisible(!modalVisible)}
-                    >
-                      <Text style={styles.textStyle}>Hide Modal</Text>
-                    </Pressable>
-                  </View>
-                </View>
-              </Modal>
-              <Pressable
-                style={[styles.button, styles.buttonOpen]}
-                onPress={() => setModalVisible(true)}
-              >
-                <Text style={styles.textStyle}>Show Modal</Text>
-              </Pressable>
 
               <TextInput
                 style={styles.input}
                 value={values.days}
-                onChangeText={daysChange}
+                keyboardType="number-pad"
+                onChangeText={(value) => onChange(value, "days")}
                 autoCapitalize="none"
-                placeholder="Количество дней"
+                placeholder="Days"
               />
 
-              <TouchableOpacity onPress={handleSearch}>
-                <Text> Найти </Text>
+              <Modal
+                animationType={'fade'}
+                transparent={true}
+                visible={modalVisible}
+              >
+                <View style={styles.centeredView}>
+                  <View style={styles.modalView}>
+                    <Calendar 
+                    minDate={moment().format("YYYY-MM-DD")}
+                    onDayPress={day => {
+                      onChange(day.dateString, 'date');
+                      }}/>
+                  </View>
+                </View>
+              </Modal>
+
+              <Pressable
+                onPress={() => setModalVisible(true)}
+                style={styles.date}
+              >
+                <Text >{!date ? 'Date' : moment(date).format("MMMM DD")}</Text>
+              </Pressable>
+
+              <TouchableOpacity style={styles.button} onPress={handleSearch}>
+                <Text >Search</Text>
               </TouchableOpacity>
+
             </View>
           );
         }}
@@ -127,16 +138,27 @@ export const SearchBlock = () => {
 const styles = StyleSheet.create({
   input: {
     height: 30,
-    marginVertical: 20,
+    width: 100,
+    margin: 10,
+    borderBottomWidth: 0.2,
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: 'center',
   },
   container: {
     flexDirection: "row",
+    alignItems: "center",
+    // backgroundColor: 'white'
   },
   centeredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22,
+  },
+  date: {
+    width: 80,
+    justifyContent: "center",
+    alignItems: "center",
   },
   modalView: {
     margin: 20,
@@ -154,20 +176,10 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
-  buttonOpen: {
-    backgroundColor: "#F194FF",
-  },
-  buttonClose: {
-    backgroundColor: "#2196F3",
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
+    margin: 10,
+    padding: 5,
+    borderRadius: 10,
+    backgroundColor: '#999'
   },
   modalText: {
     marginBottom: 15,

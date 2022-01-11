@@ -1,14 +1,11 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { api } from "../../../api/api";
+import api  from "../../../api/api";
 import moment from "moment";
 import {
   AddFavoriteHotelActionPayload,
-  AddUserLoginActionPayload,
-  HotelListActionPayload,
   HotelListSuccActionPayload,
   HotelsActions,
   HotelsState,
-  SearchFormSubmitActionPayload,
 } from "./searchingHotelsTypes";
 import { RootState } from "../reducer";
 
@@ -129,18 +126,21 @@ export function addFavoriteHotel(id: AddFavoriteHotelActionPayload) {
  * Sagas
  * */
 
-export function* hotelListSaga({ payload: params }): Generator<{}> {
+export function* hotelListSaga({ payload: params }: {payload: {location: string, checkIn: string, countOfDays: number}}): Generator<{}> {
   try {
-    const hotels = yield call(api.hotelList, {
-      location: params?.location || "Moscow",
-      checkIn: params?.checkIn || moment().format("YYYY-MM-DD"),
-      checkOut:
-        moment(params?.checkIn)
-          .add(params?.countOfDays, "days")
-          .format("YYYY-MM-DD") ||
-        moment(params?.checkIn).add(1, "days").format("YYYY-MM-DD"),
-    });
-    yield put({ type: HOTEL_LIST_SUCCESS_ACTION, payload: hotels });
-  } finally {
+    const location = params?.location || "Moscow"
+    const checkIn = params?.checkIn || moment().format("YYYY-MM-DD")
+    const checkOut = 
+      moment(params?.checkIn)
+        .add(params?.countOfDays, "days")
+        .format("YYYY-MM-DD") ||
+      moment(params?.checkIn).add(1, "days").format("YYYY-MM-DD")
+
+    const hotels = yield call(api.hotelList, location, checkIn, checkOut)
+    
+    yield put(hotelListSuccess(hotels));
+    console.log('hotels', hotels);
+  } catch(error) {
+    console.log('error', error.response);
   }
 }

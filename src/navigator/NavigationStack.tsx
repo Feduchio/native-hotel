@@ -17,7 +17,6 @@ export function NavigationStack() {
   useEffect(() => {
     if (initLogin.length > 3) {
       setIsLogin(true);
-      console.log(initLogin);
     } else {
       setIsLogin(false);
     }

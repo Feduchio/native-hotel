@@ -1,25 +1,53 @@
-import { Image, View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet, Button } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser, selectUserLogin } from "../redux/ducks/searchingHotels";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import { setUser, selectUserLogin, selectHotels, selectValueSearch, getHotelsList } from "../redux/ducks/searchingHotels";
+
 import { FavoriteBlock } from "../components/FavoriteBlock/FavoriteBlock";
 import { SearchBlock } from "../components/SearchBlock/SearchBlock";
+import { HotelsBlock } from "../components/HotelsBlock/HotelsBlock";
+import HotelCard from "../components/HotelCard/HotelCard";
+import moment from "moment";
+import { useEffect } from "react";
 
 export const MainScreen = () => {
   const dispatch = useDispatch();
   const getLogin = useSelector(selectUserLogin);
 
-  const Drawer = createDrawerNavigator();
-
   const unlog = () => {
-    dispatch(setUser(""));
-    console.log(getLogin);
+    // dispatch(setUser(""));
+    console.log(hotels);
   };
+
+  const hotels = useSelector(selectHotels);
+  const valueSearch = useSelector(selectValueSearch);
+
+  useEffect(() => {
+    dispatch(getHotelsList({ location: 'moscow', checkIn: moment().format("YYYY-MM-DD"), countOfDays: 1}));
+  }, [dispatch]);
+
   return (
     <View style={styles.searchScreen}>
-      <Text>atlishna</Text>
-      <Button title="unlog" onPress={unlog} />
       <SearchBlock />
+      <View style={styles.card}>
+      {/* {hotels.map((item) => (
+        <HotelCard
+          key={item.hotelId}
+          id={item.hotelId}
+          checkIn={
+            moment(valueSearch?.checkIn)
+              .locale("en-ca")
+              .format("DD MMMM, YYYY") ||
+            moment().locale("en-ca").format("DD MMMM, YYYY")
+          }
+          countOfDays={valueSearch?.countOfDays || " 1 "}
+          name={item.hotelName}
+          stars={item.stars}
+          priceAvg={item.priceAvg}
+        />
+        ))} */}
+        </View>
+      {/* <HotelsBlock /> */}
+      <Button title="unlog" onPress={unlog} />
     </View>
 
     // <div className="search-page">
@@ -51,6 +79,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  card: {
+    backgroundColor: "red",
+    width: 30,
+    height: 100,
+    flex: 1,
+  }
 });
 
 // .search-page {

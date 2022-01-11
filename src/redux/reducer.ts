@@ -11,7 +11,7 @@ export type RootState = {
   hotelsReducer: {
     userLogin: string;
     hotelList: string[];
-    valueSearchForm: {};
+    valueSearchForm: {checkIn: string, countOfDays: number, location: string};
     favoriteHotels: [];
   };
 };

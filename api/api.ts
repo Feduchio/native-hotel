@@ -1,20 +1,9 @@
-const hotelApi = "http://engine.hotellook.com/api/v2/cache.json";
+import axios from 'axios';
 
-export const api = {
-  hotelList: async function (queryParams = {}) {
-    const url = new URL(hotelApi);
-    const requestQueryParams = { currency: "rub", limit: 10, ...queryParams };
+const hotelApi = "https://engine.hotellook.com/api/v2/cache.json?currency=rub&limit=10";
 
-    Object.entries(requestQueryParams).forEach(([paramKey, paramValue]) => {
-      if (paramValue) {
-        url.searchParams.append(paramKey, paramValue);
-      }
-    });
-
-    const response = await fetch(url);
-
-    const json = await response.json();
-
-    return json;
-  },
-};
+export default {
+  hotelList(location: string, checkIn: string, checkOut: string){
+    return axios.get(`${hotelApi}&location=${location}&checkIn=${checkIn}&checkOut=${checkOut}`)
+  }
+}

@@ -31,7 +31,6 @@ export const LoginForm = () => {
 
   const formSubmitHandle = () => {
     dispatch(setUser(login));
-    console.log(getLogin);
   };
 
   return (

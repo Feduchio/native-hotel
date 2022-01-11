@@ -1,6 +1,6 @@
 import {
   ADD_FAVORITE_HOTEL_ACTION,
-  ADD_USER_LOGIN_ACTION,
+  SET_USER_LOGIN_ACTION,
   HOTEL_LIST_ACTION,
   HOTEL_LIST_SUCCESS_ACTION,
   SEARCH_FORM_SUBMIT_ACTION,
@@ -34,7 +34,7 @@ export interface AddFavoriteHotelActionPayload {
 }
 
 export type AddUserLoginAction = {
-  type: typeof ADD_USER_LOGIN_ACTION;
+  type: typeof SET_USER_LOGIN_ACTION;
   payload: AddUserLoginActionPayload;
 };
 
