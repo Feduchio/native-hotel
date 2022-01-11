@@ -22,32 +22,31 @@ export default function HotelCard({
   // };
 
   return (
-    <View >
-      <View >
-          <Text >{name}</Text>
-          <View >
-            <Text>{checkIn}</Text>
-            <Text>
-              {" "}
-              - {countOfDays}{" "}
-              {correctNumeral(countOfDays, {
-                one: "день",
-                two: "дня",
-                plural: "дней",
-              })}
-            </Text>
-          </View>
-          {/* <StarRatings
+    <View>
+      <View>
+        <Text>{name}</Text>
+        <View>
+          <Text>{checkIn}</Text>
+          <Text>
+            {" "}
+            - {countOfDays}{" "}
+            {correctNumeral(countOfDays, {
+              one: "день",
+              two: "дня",
+              plural: "дней",
+            })}
+          </Text>
+        </View>
+        {/* <StarRatings
             rating={stars}
             numberOfStars={5}
             starRatedColor="#CDBC1E"
             starDimension="17px"
             starSpacing="0"
           /> */}
-
       </View>
-      <Text >
-        Price: <Text >{priceAvg.toFixed()}</Text>
+      <Text>
+        Price: <Text>{priceAvg.toFixed()}</Text>
       </Text>
       {/* <HeartOutlined
         onClick={() =>

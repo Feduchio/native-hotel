@@ -34,8 +34,8 @@ export const SearchBlock = () => {
       checkIn: date || moment().format("YYYY-MM-DD"),
       countOfDays: days,
     };
-    console.log(searchFormValue)
-    
+    console.log(searchFormValue);
+
     dispatch(getHotelsList(searchFormValue));
     dispatch(searchFormSubmit(searchFormValue));
   };
@@ -47,22 +47,23 @@ export const SearchBlock = () => {
       activeOpacity={1}
     >
       <Formik
-        initialValues={{ location: '', days: '' }}
+        initialValues={{ location: "", days: "" }}
         onSubmit={handleSearch}
       >
         {(formikProps) => {
-
           const { handleChange, values } = formikProps;
-        
+
           const locationChange = (value: string) => {
             const curr = value;
-            setLocation(curr.charAt(0).toUpperCase() + curr.slice(1).toLowerCase());
+            setLocation(
+              curr.charAt(0).toUpperCase() + curr.slice(1).toLowerCase()
+            );
           };
-        
+
           const dateChange = (dateString: string) => {
             setDate(dateString);
           };
-        
+
           const daysChange = (value: string) => {
             let invert = parseInt(value);
             setDays(invert);
@@ -73,16 +74,15 @@ export const SearchBlock = () => {
             if (type === "location") {
               locationChange(value);
             } else if (type === "days") {
-              daysChange(value)
+              daysChange(value);
             } else {
-              dateChange(value)
-              setModalVisible(!modalVisible)
-            };
+              dateChange(value);
+              setModalVisible(!modalVisible);
+            }
           };
 
           return (
             <View style={styles.container}>
-
               <TextInput
                 style={styles.input}
                 value={values.location}
@@ -101,17 +101,18 @@ export const SearchBlock = () => {
               />
 
               <Modal
-                animationType={'fade'}
+                animationType={"fade"}
                 transparent={true}
                 visible={modalVisible}
               >
                 <View style={styles.centeredView}>
                   <View style={styles.modalView}>
-                    <Calendar 
-                    minDate={moment().format("YYYY-MM-DD")}
-                    onDayPress={day => {
-                      onChange(day.dateString, 'date');
-                      }}/>
+                    <Calendar
+                      minDate={moment().format("YYYY-MM-DD")}
+                      onDayPress={(day) => {
+                        onChange(day.dateString, "date");
+                      }}
+                    />
                   </View>
                 </View>
               </Modal>
@@ -120,13 +121,12 @@ export const SearchBlock = () => {
                 onPress={() => setModalVisible(true)}
                 style={styles.date}
               >
-                <Text >{!date ? 'Date' : moment(date).format("MMMM DD")}</Text>
+                <Text>{!date ? "Date" : moment(date).format("MMMM DD")}</Text>
               </Pressable>
 
               <TouchableOpacity style={styles.button} onPress={handleSearch}>
-                <Text >Search</Text>
+                <Text>Search</Text>
               </TouchableOpacity>
-
             </View>
           );
         }}
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.2,
     justifyContent: "center",
     alignItems: "center",
-    textAlign: 'center',
+    textAlign: "center",
   },
   container: {
     flexDirection: "row",
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 5,
     borderRadius: 10,
-    backgroundColor: '#999'
+    backgroundColor: "#999",
   },
   modalText: {
     marginBottom: 15,

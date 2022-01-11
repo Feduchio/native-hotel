@@ -1,6 +1,12 @@
 import { View, Text, StyleSheet, Button } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser, selectUserLogin, selectHotels, selectValueSearch, getHotelsList } from "../redux/ducks/searchingHotels";
+import {
+  setUser,
+  selectUserLogin,
+  selectHotels,
+  selectValueSearch,
+  getHotelsList,
+} from "../redux/ducks/searchingHotels";
 
 import { FavoriteBlock } from "../components/FavoriteBlock/FavoriteBlock";
 import { SearchBlock } from "../components/SearchBlock/SearchBlock";
@@ -22,14 +28,20 @@ export const MainScreen = () => {
   const valueSearch = useSelector(selectValueSearch);
 
   useEffect(() => {
-    dispatch(getHotelsList({ location: 'moscow', checkIn: moment().format("YYYY-MM-DD"), countOfDays: 1}));
+    dispatch(
+      getHotelsList({
+        location: "moscow",
+        checkIn: moment().format("YYYY-MM-DD"),
+        countOfDays: 1,
+      })
+    );
   }, [dispatch]);
 
   return (
     <View style={styles.searchScreen}>
       <SearchBlock />
       <View style={styles.card}>
-      {/* {hotels.map((item) => (
+        {/* {hotels.map((item) => (
         <HotelCard
           key={item.hotelId}
           id={item.hotelId}
@@ -45,7 +57,7 @@ export const MainScreen = () => {
           priceAvg={item.priceAvg}
         />
         ))} */}
-        </View>
+      </View>
       {/* <HotelsBlock /> */}
       <Button title="unlog" onPress={unlog} />
     </View>
@@ -84,7 +96,7 @@ const styles = StyleSheet.create({
     width: 30,
     height: 100,
     flex: 1,
-  }
+  },
 });
 
 // .search-page {

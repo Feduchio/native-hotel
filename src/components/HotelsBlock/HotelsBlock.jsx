@@ -67,4 +67,3 @@ export const HotelsBlock = () => {
 //   font-size: 24px;
 //   line-height: 28px;
 // }
-
