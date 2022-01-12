@@ -29,7 +29,7 @@ export const ADD_FAVORITE_HOTEL_ACTION =
 
 const initialState: HotelsState = {
   userLogin: "test@mail.com",
-  hotelList: [],
+  hotelList: {data: [{hotelId: 0, hotelName: '', stars: 0, priceAvg: 0}]},
   valueSearchForm: {},
   favoriteHotels: [],
 };
@@ -132,19 +132,17 @@ export function* hotelListSaga({
   payload: { location: string; checkIn: string; countOfDays: number };
 }): Generator<{}> {
   try {
-    const location = params?.location || "Moscow";
-    const checkIn = params?.checkIn || moment().format("YYYY-MM-DD");
+    const location = params.location 
+    const checkIn = params.checkIn 
     const checkOut =
-      moment(params?.checkIn)
-        .add(params?.countOfDays, "days")
-        .format("YYYY-MM-DD") ||
-      moment(params?.checkIn).add(1, "days").format("YYYY-MM-DD");
+      moment(params.checkIn)
+        .add(params.countOfDays, "days")
+        .format("YYYY-MM-DD") 
 
     const hotels = yield call(api.hotelList, location, checkIn, checkOut);
 
     yield put(hotelListSuccess(hotels));
-    console.log("hotels", hotels);
-  } catch (error) {
-    console.log("error", error.response);
+  } catch (error: any) {
+    console.log("ERROR FROM DUCK", error.response);
   }
 }

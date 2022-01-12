@@ -8,7 +8,7 @@ import {
 
 export interface HotelsState {
   userLogin: string;
-  hotelList: string[];
+  hotelList: {data: [{hotelId: number, hotelName: string, stars: number, priceAvg: number}]};
   valueSearchForm: {};
   favoriteHotels: [];
 }
@@ -30,7 +30,7 @@ export interface SearchFormSubmitActionPayload {
 }
 
 export interface AddFavoriteHotelActionPayload {
-  id: number;
+  id: number; name: string; checkIn: string; countOfDays: number; stars: number; priceAvg: number; 
 }
 
 export type AddUserLoginAction = {

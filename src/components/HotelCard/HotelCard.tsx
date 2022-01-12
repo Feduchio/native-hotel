@@ -1,11 +1,14 @@
-import { useDispatch } from "react-redux";
-// import StarRatings from "react-star-ratings";
+import { useDispatch, useSelector } from "react-redux";
 
 // import { HeartOutlined } from "@ant-design/icons/lib/icons";
 // import { addFavoriteHotel } from "../../store/actions";
 import { correctNumeral } from "../CorrectNumber/CorrectNumber";
 
-import { Text, View } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import { addFavoriteHotel, selectFavorites } from "../../redux/ducks/searchingHotels";
+import { AddFavoriteHotelActionPayload } from "../../redux/ducks/searchingHotelsTypes";
+import React from "react";
+import { Rating } from "react-native-ratings";
 
 export default function HotelCard({
   id,
@@ -16,55 +19,90 @@ export default function HotelCard({
   priceAvg,
 }) {
   const dispatch = useDispatch();
+  const fav = useSelector(selectFavorites)
 
-  // const favoriteClick = (e) => {
-  //   dispatch(addFavoriteHotel(e));
-  // };
+  const favoriteClick = (e: AddFavoriteHotelActionPayload) => {
+    
+    dispatch(addFavoriteHotel(e));
+    console.log('fav', fav)
+  };
 
   return (
-    <View>
-      <View>
-        <Text>{name}</Text>
-        <View>
-          <Text>{checkIn}</Text>
-          <Text>
-            {" "}
-            - {countOfDays}{" "}
-            {correctNumeral(countOfDays, {
+    <TouchableOpacity
+    activeOpacity={0.8}
+    onPress={() => favoriteClick({
+      id,
+      name,
+      checkIn,
+      countOfDays,
+      stars,
+      priceAvg,
+    })}>
+
+    <View style={styles.container}>
+      <View style={styles.card}>
+        <View ><Text style={styles.name}>{name}</Text></View>
+        <View><Text style={styles.date}>{checkIn} - {countOfDays}{" "}
+              {correctNumeral(countOfDays, {
               one: "день",
               two: "дня",
               plural: "дней",
-            })}
-          </Text>
-        </View>
-        {/* <StarRatings
-            rating={stars}
-            numberOfStars={5}
-            starRatedColor="#CDBC1E"
-            starDimension="17px"
-            starSpacing="0"
-          /> */}
+            })}</Text></View>
       </View>
-      <Text>
+      <View style={styles.price}>
+      <View >
+        <Rating 
+        ratingCount={5}
+        readonly={true}
+        startingValue={stars}
+        imageSize={15}
+        />
+      </View>
+      <Text >
         Price: <Text>{priceAvg.toFixed()}</Text>
       </Text>
+      </View>
       {/* <HeartOutlined
         onClick={() =>
-          favoriteClick({
-            id,
-            name,
-            checkIn,
-            countOfDays,
-            stars,
-            priceAvg,
-          })
+          
         }
         style={{ fontSize: "21px" }}
         className="hotels-card-favorite"
       /> */}
     </View>
+    </TouchableOpacity>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    justifyContent: "space-between",
+    flexDirection: 'row',
+    width: 380,
+    height: 60,
+    borderRadius: 10,
+    backgroundColor: "white",
+    marginVertical: 4,
+    opacity: 0.95
+  },
+  card: {
+    marginHorizontal: 14,
+    maxWidth: '60%',
+    maxHeight: '100%'
+  },
+  price:{
+    marginHorizontal:14,
+    alignItems: 'flex-end',
+  },
+name:{
+  fontWeight: 'bold',
+  marginBottom: 5
+},
+date:{
+  fontWeight: '300'
+}
+});
 
 // .hotels-card {
 //   position: relative;

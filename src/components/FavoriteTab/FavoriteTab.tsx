@@ -1,14 +1,18 @@
-import { useState } from "react";
 import { useSelector } from "react-redux";
-
+import { View, Text, Button, StyleSheet, ImageBackground } from "react-native";
+import React from "react";
+import { selectFavorites } from "../../redux/ducks/searchingHotels";
 import HotelCard from "../HotelCard/HotelCard";
-// import { selectFavorites } from "../../store/selectors";
-import { View, Text } from "react-native";
+import moment from "moment";
+import { FavoriteCounter } from "../FavoriteCounter/FavoriteCounter";
+
+const image = { uri: "https://images.unsplash.com/photo-1589876876491-df78ff60e196?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80" };
 
 const FILTERS = { STARS: "stars", PRICE: "priceAvg" };
 
-export const FavoriteBlock = () => {
-  // const favorites = useSelector(selectFavorites);
+export const FavoriteTab = () => {
+  const favorites = useSelector(selectFavorites);
+  
   // const [sort, setSort] = useState({ name: "", direction: "" });
 
   // const handleFilterClick = (filter) => {
@@ -34,9 +38,38 @@ export const FavoriteBlock = () => {
   //   : favorites;
 
   return (
-    <View>
-      <Text>favorite</Text>
+    <ImageBackground source={image} resizeMode="cover" style={styles.image} blurRadius={3}>
+      <FavoriteCounter />
+    <View style={{alignItems: 'center'}}> 
+      {favorites?.map((item: {id: number, name: string, countOfDays: number, checkIn: string , stars: number, priceAvg: number}) => (
+        <HotelCard
+        key={item.id}
+        id={item.id}
+        checkIn={
+          moment(item.checkIn)
+            .locale("en-ca")
+            .format("YYYY, DD MMMM") ||
+          moment().locale("en-ca").format("YYYY, DD MMMM")
+        }
+        countOfDays={item.countOfDays || "1"}
+        name={item.name}
+        stars={item.stars}
+        priceAvg={item.priceAvg}
+      />
+      ))}
     </View>
+    </ImageBackground>
+
+  );
+};
+
+const styles = StyleSheet.create({
+  image: {
+    justifyContent: "flex-start",
+    height: '100%',
+    width: '100%'
+  },
+})
     // <div className="favorite-block">
     //   <div className="favorite-block-container">
     //     <h2 className="favorite-block-container-title">Избранное</h2>
@@ -70,8 +103,7 @@ export const FavoriteBlock = () => {
     //     </Scrollbars>
     //   </div>
     // </div>
-  );
-};
+
 
 // .favorite-block {
 //   display: flex;

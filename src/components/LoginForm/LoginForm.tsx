@@ -113,6 +113,7 @@ export const LoginForm = () => {
                 onChangeText={(value) => onChange(value, "login")}
                 onBlur={() => blurHandler(logMark)}
                 autoCapitalize="none"
+                autoCorrect={false}
               />
               <Text>
                 {loginDirty && loginError && (
@@ -128,6 +129,7 @@ export const LoginForm = () => {
                 onChangeText={(value) => onChange(value, "password")}
                 onBlur={() => blurHandler(passMark)}
                 autoCapitalize="none"
+                autoCorrect={false}
               />
               <Text>
                 {passwordDirty && passwordError && (
@@ -151,15 +153,13 @@ export const LoginForm = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    // position: "relative"
-  },
+
   loginForm: {
     alignItems: "center",
     justifyContent: "center",
     padding: 32,
     fontWeight: "300",
-    backgroundColor: "#fff",
+    backgroundColor: "white",
   },
 
   loginFormTitle: {

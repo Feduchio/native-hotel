@@ -34,7 +34,6 @@ export const SearchBlock = () => {
       checkIn: date || moment().format("YYYY-MM-DD"),
       countOfDays: days,
     };
-    console.log(searchFormValue);
 
     dispatch(getHotelsList(searchFormValue));
     dispatch(searchFormSubmit(searchFormValue));
@@ -148,7 +147,10 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    // backgroundColor: 'white'
+    marginTop: 30,
+    backgroundColor: 'white',
+    opacity: 0.95,
+    borderRadius: 4,
   },
   centeredView: {
     flex: 1,
@@ -177,45 +179,12 @@ const styles = StyleSheet.create({
   },
   button: {
     margin: 10,
-    padding: 5,
-    borderRadius: 10,
-    backgroundColor: "#999",
+    padding: 10,
+    borderRadius: 9,
+    backgroundColor: "#acc4de",
   },
   modalText: {
     marginBottom: 15,
     textAlign: "center",
   },
 });
-
-// .search-block {
-//   display: flex;
-//   width: 100%;
-//   max-height: 362px;
-//   margin: 20px;
-// }
-
-// .search-block-button {
-//   position: static;
-//   width: 100%;
-//   height: 40px;
-//   color: #fff;
-//   font-weight: 500;
-//   font-size: 16px;
-//   line-height: 20px;
-//   background: linear-gradient(104.34deg, #41522e -15.34%, #be8022 145.95%);
-//   border: none;
-//   border-radius: 4px;
-//   outline: none;
-//   box-shadow: 0 0 2px rgba(0 0 0 15%);
-// }
-
-// .search-block-container {
-//   width: 100%;
-//   padding: 32px;
-//   background-color: #fff;
-//   border-radius: 8px;
-// }
-
-// .search-block-container-datepicker {
-//   width: 100%;
-// }
