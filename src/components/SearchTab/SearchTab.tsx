@@ -1,4 +1,4 @@
-import { View, StyleSheet, ImageBackground } from "react-native";
+import { View, StyleSheet, ImageBackground, ScrollView } from "react-native";
 import React from "react";
 import { SearchBlock } from "../SearchBlock/SearchBlock";
 import HotelList from "../HotelList/HotelList";
@@ -17,7 +17,9 @@ export const SearchTab = () => {
     >
       <View style={styles.searchScreen}>
         <SearchBlock />
-        <HotelList />
+        <ScrollView>
+          <HotelList />
+        </ScrollView>
       </View>
     </ImageBackground>
   );
