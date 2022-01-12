@@ -153,7 +153,6 @@ export const LoginForm = () => {
 };
 
 const styles = StyleSheet.create({
-
   loginForm: {
     alignItems: "center",
     justifyContent: "center",

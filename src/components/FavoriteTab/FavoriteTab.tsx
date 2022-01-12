@@ -6,13 +6,15 @@ import HotelCard from "../HotelCard/HotelCard";
 import moment from "moment";
 import { FavoriteCounter } from "../FavoriteCounter/FavoriteCounter";
 
-const image = { uri: "https://images.unsplash.com/photo-1589876876491-df78ff60e196?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80" };
+const image = {
+  uri: "https://images.unsplash.com/photo-1589876876491-df78ff60e196?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80",
+};
 
 const FILTERS = { STARS: "stars", PRICE: "priceAvg" };
 
 export const FavoriteTab = () => {
   const favorites = useSelector(selectFavorites);
-  
+
   // const [sort, setSort] = useState({ name: "", direction: "" });
 
   // const handleFilterClick = (filter) => {
@@ -38,72 +40,82 @@ export const FavoriteTab = () => {
   //   : favorites;
 
   return (
-    <ImageBackground source={image} resizeMode="cover" style={styles.image} blurRadius={3}>
+    <ImageBackground
+      source={image}
+      resizeMode="cover"
+      style={styles.image}
+      blurRadius={3}
+    >
       <FavoriteCounter />
-    <View style={{alignItems: 'center'}}> 
-      {favorites?.map((item: {id: number, name: string, countOfDays: number, checkIn: string , stars: number, priceAvg: number}) => (
-        <HotelCard
-        key={item.id}
-        id={item.id}
-        checkIn={
-          moment(item.checkIn)
-            .locale("en-ca")
-            .format("YYYY, DD MMMM") ||
-          moment().locale("en-ca").format("YYYY, DD MMMM")
-        }
-        countOfDays={item.countOfDays || "1"}
-        name={item.name}
-        stars={item.stars}
-        priceAvg={item.priceAvg}
-      />
-      ))}
-    </View>
+      <View style={{ alignItems: "center" }}>
+        {favorites?.map(
+          (item: {
+            id: number;
+            name: string;
+            countOfDays: number;
+            checkIn: string;
+            stars: number;
+            priceAvg: number;
+          }) => (
+            <HotelCard
+              key={item.id}
+              id={item.id}
+              checkIn={
+                moment(item.checkIn).locale("en-ca").format("YYYY, DD MMMM") ||
+                moment().locale("en-ca").format("YYYY, DD MMMM")
+              }
+              countOfDays={item.countOfDays || "1"}
+              name={item.name}
+              stars={item.stars}
+              priceAvg={item.priceAvg}
+            />
+          )
+        )}
+      </View>
     </ImageBackground>
-
   );
 };
 
 const styles = StyleSheet.create({
   image: {
     justifyContent: "flex-start",
-    height: '100%',
-    width: '100%'
+    height: "100%",
+    width: "100%",
   },
-})
-    // <div className="favorite-block">
-    //   <div className="favorite-block-container">
-    //     <h2 className="favorite-block-container-title">Избранное</h2>
-    //     <button
-    //       className="favorite-block-container-button"
-    //       onClick={() => handleFilterClick(FILTERS.STARS)}
-    //     >
-    //       Рейтинг
-    //     </button>
-    //     <button
-    //       className="favorite-block-container-button"
-    //       onClick={() => handleFilterClick(FILTERS.PRICE)}
-    //     >
-    //       Цена
-    //     </button>
-    //     <Scrollbars>
-    //       {sortedHotels.map((favorites, index) => (
-    //         <>
-    //           <HotelCard
-    //             checkIn={favorites.checkIn}
-    //             countOfDays={favorites.countOfDays}
-    //             key={favorites.id}
-    //             id={favorites.id}
-    //             name={favorites.name}
-    //             stars={favorites.stars}
-    //             priceAvg={favorites.priceAvg}
-    //           />
-    //           {sortedHotels.length - 1 !== index && <div className="divider" />}
-    //         </>
-    //       ))}
-    //     </Scrollbars>
-    //   </div>
-    // </div>
-
+});
+// <div className="favorite-block">
+//   <div className="favorite-block-container">
+//     <h2 className="favorite-block-container-title">Избранное</h2>
+//     <button
+//       className="favorite-block-container-button"
+//       onClick={() => handleFilterClick(FILTERS.STARS)}
+//     >
+//       Рейтинг
+//     </button>
+//     <button
+//       className="favorite-block-container-button"
+//       onClick={() => handleFilterClick(FILTERS.PRICE)}
+//     >
+//       Цена
+//     </button>
+//     <Scrollbars>
+//       {sortedHotels.map((favorites, index) => (
+//         <>
+//           <HotelCard
+//             checkIn={favorites.checkIn}
+//             countOfDays={favorites.countOfDays}
+//             key={favorites.id}
+//             id={favorites.id}
+//             name={favorites.name}
+//             stars={favorites.stars}
+//             priceAvg={favorites.priceAvg}
+//           />
+//           {sortedHotels.length - 1 !== index && <div className="divider" />}
+//         </>
+//       ))}
+//     </Scrollbars>
+//   </div>
+// </div>
 
 // .favorite-block {
 //   display: flex;

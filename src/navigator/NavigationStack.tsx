@@ -24,9 +24,10 @@ export function NavigationStack() {
 
   return (
     <Stack.Navigator
-    screenOptions={{
-      headerShown: false
-    }}>
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       {!isLogin ? (
         <Stack.Screen
           options={{

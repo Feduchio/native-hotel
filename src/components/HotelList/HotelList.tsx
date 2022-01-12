@@ -3,7 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 import { View } from "react-native";
 
-import { getHotelsList, selectHotels, selectValueSearch } from "../../redux/ducks/searchingHotels";
+import {
+  getHotelsList,
+  selectHotels,
+  selectValueSearch,
+} from "../../redux/ducks/searchingHotels";
 import HotelCard from "../HotelCard/HotelCard";
 
 export default function HotelList() {
@@ -22,23 +26,22 @@ export default function HotelList() {
   }, [dispatch]);
 
   return (
-
-    <View> 
+    <View>
       {hotels.data?.map((item) => (
         <HotelCard
-        key={item.hotelId}
-        id={item.hotelId}
-        checkIn={
-          moment(valueSearch?.checkIn)
-            .locale("en-ca")
-            .format("YYYY, DD MMMM") ||
-          moment().locale("en-ca").format("YYYY, DD MMMM")
-        }
-        countOfDays={valueSearch?.countOfDays || " 1 "}
-        name={item.hotelName}
-        stars={item.stars}
-        priceAvg={item.priceAvg}
-      />
+          key={item.hotelId}
+          id={item.hotelId}
+          checkIn={
+            moment(valueSearch?.checkIn)
+              .locale("en-ca")
+              .format("YYYY, DD MMMM") ||
+            moment().locale("en-ca").format("YYYY, DD MMMM")
+          }
+          countOfDays={valueSearch?.countOfDays || " 1 "}
+          name={item.hotelName}
+          stars={item.stars}
+          priceAvg={item.priceAvg}
+        />
       ))}
     </View>
   );
