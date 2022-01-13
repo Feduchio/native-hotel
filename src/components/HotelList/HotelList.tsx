@@ -14,6 +14,7 @@ export default function HotelList() {
   const dispatch = useDispatch();
   const hotels = useSelector(selectHotels);
   const valueSearch = useSelector(selectValueSearch);
+  const favButtonTitle = 'Add to favorites'
 
   useEffect(() => {
     dispatch(
@@ -37,10 +38,11 @@ export default function HotelList() {
               .format("YYYY, DD MMMM") ||
             moment().locale("en-ca").format("YYYY, DD MMMM")
           }
-          countOfDays={valueSearch?.countOfDays || " 1 "}
+          countOfDays={valueSearch?.countOfDays || 1}
           name={item.hotelName}
           stars={item.stars}
           priceAvg={item.priceAvg}
+          favButtonTitle={favButtonTitle}
         />
       ))}
     </View>

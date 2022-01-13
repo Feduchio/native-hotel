@@ -1,6 +1,7 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import { call, put } from "redux-saga/effects";
 import api from "../../../api/api";
 import moment from "moment";
+
 import {
   AddFavoriteHotelActionPayload,
   HotelListSuccActionPayload,
@@ -14,6 +15,9 @@ const prefix = "searchingHotels/";
 /**
  * Constants
  * */
+ export const image = {
+  uri: "https://images.unsplash.com/photo-1589876876491-df78ff60e196?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80",
+};
 export const HOTEL_LIST_ACTION = `${prefix}HOTEL_LIST_ACTION` as const;
 export const SET_USER_LOGIN_ACTION = `${prefix}SET_USER_LOGIN_ACTION` as const;
 export const HOTEL_LIST_SUCCESS_ACTION =
@@ -22,11 +26,13 @@ export const SEARCH_FORM_SUBMIT_ACTION =
   `${prefix}SEARCH_FORM_SUBMIT_ACTION` as const;
 export const ADD_FAVORITE_HOTEL_ACTION =
   `${prefix}ADD_FAVORITE_HOTEL_ACTION` as const;
+export const CLEAR_FAVORITE_HOTEL_ACTION =
+  `${prefix}CLEAR_FAVORITE_HOTEL_ACTION` as const;
+
 
 /**
  * Reducer
  * */
-
 const initialState: HotelsState = {
   userLogin: "test@mail.com",
   hotelList: { data: [{ hotelId: 0, hotelName: "", stars: 0, priceAvg: 0 }] },
@@ -75,6 +81,12 @@ export default function hotelsReducer(
         favoriteHotels: [...state.favoriteHotels, action.payload],
       };
     }
+    case CLEAR_FAVORITE_HOTEL_ACTION: {
+      return {
+        ...state,
+        favoriteHotels: [],
+      };
+    }
     default:
       return state;
   }
@@ -97,7 +109,6 @@ export const selectFavorites = (state: RootState) =>
 export function setUser(login: string) {
   return { type: SET_USER_LOGIN_ACTION, payload: login };
 }
-
 export function getHotelsList(params: {
   location: string;
   checkIn: string;
@@ -105,11 +116,9 @@ export function getHotelsList(params: {
 }) {
   return { type: HOTEL_LIST_ACTION, payload: params };
 }
-
 export function hotelListSuccess(hotels: HotelListSuccActionPayload) {
   return { type: HOTEL_LIST_SUCCESS_ACTION, payload: hotels };
 }
-
 export function searchFormSubmit(params: {
   location: string;
   checkIn: string;
@@ -117,15 +126,16 @@ export function searchFormSubmit(params: {
 }) {
   return { type: SEARCH_FORM_SUBMIT_ACTION, payload: params };
 }
-
 export function addFavoriteHotel(id: AddFavoriteHotelActionPayload) {
   return { type: ADD_FAVORITE_HOTEL_ACTION, payload: id };
+}
+export function clearFavorites() {
+  return { type: CLEAR_FAVORITE_HOTEL_ACTION};
 }
 
 /**
  * Sagas
  * */
-
 export function* hotelListSaga({
   payload: params,
 }: {
@@ -138,8 +148,8 @@ export function* hotelListSaga({
       .add(params.countOfDays, "days")
       .format("YYYY-MM-DD");
 
-    const hotels = yield call(api.hotelList, location, checkIn, checkOut);
-
+    const hotels: any = yield call(api.hotelList, location, checkIn, checkOut);
+    
     yield put(hotelListSuccess(hotels));
   } catch (error: any) {
     console.log("ERROR FROM DUCK", error.response);

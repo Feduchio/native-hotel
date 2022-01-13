@@ -1,11 +1,9 @@
-import { View, StyleSheet, ImageBackground, ScrollView } from "react-native";
 import React from "react";
+import { View, StyleSheet, ImageBackground, ScrollView } from "react-native";
+
 import { SearchBlock } from "../SearchBlock/SearchBlock";
 import HotelList from "../HotelList/HotelList";
-
-const image = {
-  uri: "https://images.unsplash.com/photo-1589876876491-df78ff60e196?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80",
-};
+import { image } from "../../redux/ducks/searchingHotels";
 
 export const SearchTab = () => {
   return (
@@ -17,9 +15,11 @@ export const SearchTab = () => {
     >
       <View style={styles.searchScreen}>
         <SearchBlock />
+
         <ScrollView>
           <HotelList />
         </ScrollView>
+
       </View>
     </ImageBackground>
   );

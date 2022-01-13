@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import { Formik } from "formik";
 import {
   Text,
@@ -10,11 +9,11 @@ import {
   Keyboard,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+
 import { setUser, selectUserLogin } from "../../redux/ducks/searchingHotels";
 
 export const LoginForm = () => {
   const dispatch = useDispatch();
-  const getLogin = useSelector(selectUserLogin);
 
   const [loginDirty, setLoginDirty] = useState(false);
   const [passwordDirty, setPasswordDirty] = useState(false);
@@ -103,9 +102,10 @@ export const LoginForm = () => {
           };
 
           return (
-            <View style={styles.container}>
-              <Text style={styles.loginFormTitle}> Simple Hotel </Text>
+            <View >
 
+              <Text style={styles.loginFormTitle}> Simple Hotel </Text>
+              
               <Text style={styles.loginFormLabel}> Логин </Text>
               <TextInput
                 style={styles.loginFormInput}
@@ -140,7 +140,7 @@ export const LoginForm = () => {
               <TouchableOpacity
                 disabled={!formValid}
                 style={{ opacity: !formValid ? 0.5 : 1 }}
-                onPress={handleSubmit}
+                onPress={() => handleSubmit}
               >
                 <Text style={styles.loginFormButton}> Войти </Text>
               </TouchableOpacity>
@@ -154,8 +154,6 @@ export const LoginForm = () => {
 
 const styles = StyleSheet.create({
   loginForm: {
-    alignItems: "center",
-    justifyContent: "center",
     padding: 32,
     fontWeight: "300",
     backgroundColor: "white",

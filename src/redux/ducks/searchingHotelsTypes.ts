@@ -4,6 +4,7 @@ import {
   HOTEL_LIST_ACTION,
   HOTEL_LIST_SUCCESS_ACTION,
   SEARCH_FORM_SUBMIT_ACTION,
+  CLEAR_FAVORITE_HOTEL_ACTION,
 } from "./searchingHotels";
 
 export interface HotelsState {
@@ -67,9 +68,14 @@ export type AddFavoriteHotelAction = {
   payload: AddFavoriteHotelActionPayload;
 };
 
+export type ClearFavoriteHotelAction = {
+  type: typeof CLEAR_FAVORITE_HOTEL_ACTION;
+};
+
 export type HotelsActions =
   | AddUserLoginAction
   | HotelListAction
   | HotelListSuccAction
   | SearchFormSubmitAction
-  | AddFavoriteHotelAction;
+  | AddFavoriteHotelAction
+  | ClearFavoriteHotelAction;

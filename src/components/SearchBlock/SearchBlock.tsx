@@ -2,12 +2,6 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Calendar } from "react-native-calendars";
 import moment from "moment";
-
-import {
-  getHotelsList,
-  searchFormSubmit,
-} from "../../redux/ducks/searchingHotels";
-
 import {
   TouchableOpacity,
   View,
@@ -19,6 +13,11 @@ import {
   Pressable,
 } from "react-native";
 import { Formik } from "formik";
+
+import {
+  getHotelsList,
+  searchFormSubmit,
+} from "../../redux/ducks/searchingHotels";
 
 export const SearchBlock = () => {
   const dispatch = useDispatch();
@@ -53,10 +52,7 @@ export const SearchBlock = () => {
           const { handleChange, values } = formikProps;
 
           const locationChange = (value: string) => {
-            const curr = value;
-            setLocation(
-              curr.charAt(0).toUpperCase() + curr.slice(1).toLowerCase()
-            );
+            setLocation(value);
           };
 
           const dateChange = (dateString: string) => {
@@ -147,10 +143,11 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 30,
+    marginBottom: 5,
     backgroundColor: "white",
     opacity: 0.95,
     borderRadius: 4,
+    width:'100%'
   },
   centeredView: {
     flex: 1,

@@ -1,4 +1,4 @@
-export const correctNumeral = (number, { one, two, plural }) => {
+export const correctNumeral = (number: number, { one, two, plural }: {one:string, two: string, plural: string}) => {
   let n = Math.abs(number);
   n %= 100;
   if (n >= 5 && n <= 20) {

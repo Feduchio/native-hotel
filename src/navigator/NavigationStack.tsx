@@ -30,16 +30,11 @@ export function NavigationStack() {
     >
       {!isLogin ? (
         <Stack.Screen
-          options={{
-            title: "Авторизация",
-            cardStyle: { alignItems: "center" },
-          }}
           name="LoginScreen"
           component={LoginScreen}
         />
       ) : (
         <Stack.Screen
-          options={{ title: "Simple Hotel" }}
           name="SearchScreen"
           component={MainScreen}
         />

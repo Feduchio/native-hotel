@@ -1,14 +1,13 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-
+import React from "react";
 import { Provider } from "react-redux";
+import { StyleSheet, View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+
 import store from "./src/redux/store";
 import { NavigationStack } from "./src/navigator/NavigationStack";
-import { NavigationContainer } from "@react-navigation/native";
-import React from "react";
 
 export default function App() {
-  return (
+  return(
     <Provider store={store}>
       <View style={styles.container}>
         <NavigationContainer>
@@ -16,8 +15,7 @@ export default function App() {
         </NavigationContainer>
       </View>
     </Provider>
-  );
-}
+  )}
 
 const styles = StyleSheet.create({
   container: {
