@@ -34,7 +34,7 @@ export const CLEAR_FAVORITE_HOTEL_ACTION =
  * Reducer
  * */
 const initialState: HotelsState = {
-  userLogin: "test@mail.com",
+  userLogin: "test@gmail.com",
   hotelList: { data: [{ hotelId: 0, hotelName: "", stars: 0, priceAvg: 0 }] },
   valueSearchForm: {},
   favoriteHotels: [],

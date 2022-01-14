@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Rating } from "react-native-ratings";
 import { useDispatch, useSelector } from "react-redux";
-import { Text, View, StyleSheet, TouchableOpacity, Modal, Button, Image } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity, Modal, Button } from "react-native";
+import { FontAwesome } from '@expo/vector-icons'
 
 import { correctNumeral } from "../CorrectNumber/CorrectNumber";
 import {
@@ -16,40 +17,41 @@ export default function HotelCard({
   countOfDays,
   stars,
   priceAvg,
-  favButtonTitle
+  favButtonTitle,
+  navigation
 }: {id: number, name: string, checkIn: string, countOfDays: number, stars: number, priceAvg: number, favButtonTitle:string}) {
 
   const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false);
   
-  const [ isFav ] = useSelector(selectFavorites)
+  const  isFav  = useSelector(selectFavorites)
+  const likes = isFav.map((element: { id: number; }) => element.id);
   const favoriteClick = (e: AddFavoriteHotelActionPayload) => {
     dispatch(addFavoriteHotel(e));
-    console.log(isFav?.id)
   };
 
   return (
+    <View style={styles.globalContainer}>
     <TouchableOpacity
       activeOpacity={0.8}
-      onLongPress={() =>
-        favoriteClick({
-          id,
-          name,
-          checkIn,
-          countOfDays,
-          stars,
-          priceAvg,
-        })
-      }
       onPress={() =>
         setModalVisible(true)
       }
+      onLongPress={() =>
+        navigation.navigate('HotelScreen',
+          {name,
+          checkIn,
+          countOfDays,
+          stars,
+          priceAvg,}
+        )}
       onPressOut={() => {setModalVisible(false)}}
      >
       <View style={styles.container}>
         <View style={styles.card}>
-          <View>
-            <Text style={styles.name}>{name}</Text>
+          <View >
+            <Text
+            style={styles.name}>{name}</Text>
           </View>
           <View>
             <Text style={styles.date}>
@@ -62,10 +64,8 @@ export default function HotelCard({
             </Text>
           </View>
         </View>
-        {(isFav?.id === id) ? <Image 
-              source={require('../../../assets/Icons/heart.png')} 
-              style={styles.like}
-            /> : <></>}
+        <View style={styles.info}>
+        
         <View style={styles.price}>
           <View>
             <Rating
@@ -79,7 +79,8 @@ export default function HotelCard({
             Price: {priceAvg.toFixed()}
           </Text>
         </View>
-          <Modal
+        </View>
+        <Modal
           animationType={"fade"}
           transparent={true}
           visible={modalVisible}
@@ -87,6 +88,7 @@ export default function HotelCard({
           >
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
+                <View style={styles.modalHeader}>
                 <View>
                   <Text style={styles.modalName}>{name}</Text>
                 </View>
@@ -100,13 +102,16 @@ export default function HotelCard({
                 })}
               </Text>
               </View>
-              <Text style={styles.modalStars}>
+              </View>
+              <View>
               <Rating
                 ratingCount={5}
                 readonly={true}
                 startingValue={stars}
-                imageSize={15}
-              />           Price: {priceAvg.toFixed()}
+                imageSize={45}
+              />
+              <Text style={styles.modalStars}>
+Price: {priceAvg.toFixed()}
               </Text>
               <View style={styles.modalButtons}>
                 <Button 
@@ -122,12 +127,42 @@ export default function HotelCard({
                     stars,
                     priceAvg,
                   })}/>
+                  </View>
               </View>
               </View>
             </View>
           </Modal>
       </View>
     </TouchableOpacity>
+    <View style={styles.likeContainer} >
+    {(likes.includes(id)) ? 
+      <FontAwesome.Button       
+      onPress={() =>
+      favoriteClick({
+        id,
+        name,
+        checkIn,
+        countOfDays,
+        stars,
+        priceAvg,
+      })} 
+      activeOpacity={0.8} style={styles.like} name="heart" size={30} color="red" backgroundColor={'white'}/>
+        : 
+    <TouchableOpacity >
+      <FontAwesome.Button       
+      onPress={() =>
+      favoriteClick({
+        id,
+        name,
+        checkIn,
+        countOfDays,
+        stars,
+        priceAvg,
+      })}
+        style={styles.like} name="heart-o" size={30} color="black" backgroundColor={'white'} />
+    </TouchableOpacity>}
+    </View>
+    </View>
   );
 }
 
@@ -137,23 +172,48 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  globalContainer:{
+    flexDirection: 'row',
+    justifyContent: "center",
+    alignItems: "center",
+  },
   modalStars: {
-    marginTop:10
+    justifyContent: "flex-end",
+    alignItems: "center",
+    textAlign: 'center',
+    marginTop: '10%'
+  },
+  info: {
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: 'row',
   },
   modalButtons: {
     flexDirection: 'row',
+    marginTop: 10,
+  },
+  modalHeader: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  likeContainer: {
+margin: '1%'
   },
   like: {
-    width: 25, 
-    height: 25, 
+    paddingLeft: 15,
+    paddingVertical:15,
+    // borderRadius: 100,
+    justifyContent: "center",
+    alignItems: "center",
   },
   modalView: {
     width: "80%",
-    height: '23%',
+    height: '40%',
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
     padding: 35,
+    justifyContent: 'space-between',
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -168,17 +228,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     flexDirection: "row",
-    width: 380,
-    height: 60,
+    width: 310,
+    height: 110,
     borderRadius: 10,
     backgroundColor: "white",
     marginVertical: 4,
     opacity: 0.95,
+    shadowColor: '#171717',
+    shadowOffset: {width: -2, height: 4},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
   },
   card: {
     marginHorizontal: 14,
     maxWidth: "60%",
-    maxHeight: "100%",
+    height: "65%",
+    justifyContent:'space-between'
   },
   price: {
     marginHorizontal: 14,

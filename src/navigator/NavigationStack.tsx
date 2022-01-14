@@ -6,21 +6,12 @@ import { LoginScreen } from "../screens/LoginScreen";
 import { StackParamList } from "./types";
 import { MainScreen } from "../screens/MainScreen";
 import { selectUserLogin } from "../redux/ducks/searchingHotels";
+import { HotelScreen } from "../components/HotelScreen";
+import { SearchTab } from "../components/SearchTab/SearchTab";
 
 const Stack = createStackNavigator<StackParamList>();
 
 export function NavigationStack() {
-  const initLogin = useSelector(selectUserLogin);
-
-  const [isLogin, setIsLogin] = useState(false);
-
-  useEffect(() => {
-    if (initLogin.length > 3) {
-      setIsLogin(true);
-    } else {
-      setIsLogin(false);
-    }
-  }, [initLogin]);
 
   return (
     <Stack.Navigator
@@ -28,17 +19,14 @@ export function NavigationStack() {
         headerShown: false,
       }}
     >
-      {!isLogin ? (
-        <Stack.Screen
-          name="LoginScreen"
-          component={LoginScreen}
-        />
-      ) : (
         <Stack.Screen
           name="SearchScreen"
-          component={MainScreen}
+          component={SearchTab}
         />
-      )}
+        <Stack.Screen
+          name="HotelScreen"
+          component={HotelScreen}
+        />
     </Stack.Navigator>
   );
 }

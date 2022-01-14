@@ -2,10 +2,13 @@ import React from "react";
 import { Button, Image, View, Text, StyleSheet} from "react-native";
 import { useDispatch } from "react-redux";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { AntDesign } from '@expo/vector-icons';
 
 import { SearchTab } from "../components/SearchTab/SearchTab";
 import { FavoriteTab } from "../components/FavoriteTab/FavoriteTab";
 import { setUser } from "../redux/ducks/searchingHotels";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { NavigationStack } from "../navigator/NavigationStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -19,11 +22,14 @@ export const MainScreen = () => {
     <Tab.Navigator >
       <Tab.Screen
         name="Search"
-        component={SearchTab}
+        component={NavigationStack}
         options={{
-          headerLeft: () => <Button onPress={unlog} title="Unlog"/>,
+          headerLeft: () => 
+          <TouchableOpacity style={{ padding: 7, ...styles.container}} onPress={unlog}>
+            <AntDesign name="logout" size={24} color="black" />
+          </TouchableOpacity>,
           tabBarIcon: ({focused}) => (
-            <View style={styles.container}>
+            <View style={{top: 7, ...styles.container}}>
               <Image 
               source={require('../../assets/Icons/search.png')} 
               resizeMode="contain"
@@ -39,9 +45,12 @@ export const MainScreen = () => {
         name='Favorites'
         component={FavoriteTab}
         options={{
-          headerLeft: () => <Button onPress={unlog} title="Unlog" />,
+          headerLeft: () => 
+          <TouchableOpacity style={{ padding: 7, ...styles.container}}onPress={unlog}>
+            <AntDesign name="logout" size={24} color="black" />
+          </TouchableOpacity>,
           tabBarIcon: ({focused}) => (
-            <View style={styles.container}>
+            <View style={{top: 7, ...styles.container}}>
               <Image 
               source={require('../../assets/Icons/favourite.png')} 
               resizeMode="contain"
@@ -61,7 +70,6 @@ const styles = StyleSheet.create({
   container:{
     alignItems:'center', 
     justifyContent: 'center', 
-    top: 7
   },
   image: {
     width: 20, 

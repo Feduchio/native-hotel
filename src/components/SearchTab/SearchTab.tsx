@@ -16,8 +16,11 @@ export const SearchTab = () => {
       <View style={styles.searchScreen}>
         <SearchBlock />
 
-        <ScrollView>
+        <ScrollView
+        showsVerticalScrollIndicator={false}>
+          <View style={styles.container}>
           <HotelList />
+          </View>
         </ScrollView>
 
       </View>
@@ -29,6 +32,9 @@ const styles = StyleSheet.create({
   searchScreen: {
     alignItems: "center",
     justifyContent: "center",
+  },
+  container:{
+    paddingBottom: '10%'
   },
   image: {
     justifyContent: "flex-start",

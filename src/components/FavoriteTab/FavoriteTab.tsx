@@ -50,17 +50,18 @@ export const FavoriteTab = () => {
     >
       <View style={styles.buttons}>
         <Button 
-          title={"Clear"} 
+          title="Clear" 
           onPress={clearFav} />
         <Button 
-          title='Рейтинг'
+          title="Stars"
           onPress={() => handleFilterClick(FILTERS.STARS)}/>
         <Button 
-          title='Цена'
+          title='Price'
           onPress={() => handleFilterClick(FILTERS.PRICE)}/>
       </View>
 
-      <ScrollView>
+      <ScrollView
+      showsVerticalScrollIndicator={false}>
       <View style={styles.favorites}>
         {favorites?.map(
           (item: {
