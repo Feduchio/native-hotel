@@ -7,14 +7,14 @@ import {
   getHotelsList,
   selectHotels,
   selectValueSearch,
-} from "../../redux/ducks/searchingHotels";
-import HotelCard from "../HotelCard/HotelCard";
+} from "../redux/ducks/searchingHotels";
+import HotelCard from "./HotelCard";
 
 export default function HotelList() {
   const dispatch = useDispatch();
   const hotels = useSelector(selectHotels);
   const valueSearch = useSelector(selectValueSearch);
-  const favButtonTitle = 'Add to favorites'
+  const favButtonTitle = "Add to favorites";
 
   useEffect(() => {
     dispatch(

@@ -3,16 +3,14 @@ import { Provider } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
 
 import store from "./src/redux/store";
-import { NavigationStack } from "./src/navigator/NavigationStack";
 import { ScreenReducer } from "./src/screens/ScreenReducer";
 
 export default function App() {
-  return(
+  return (
     <Provider store={store}>
-        <NavigationContainer>
-          <ScreenReducer />
-        </NavigationContainer>
+      <NavigationContainer>
+        <ScreenReducer />
+      </NavigationContainer>
     </Provider>
-  )}
-
-
+  );
+}

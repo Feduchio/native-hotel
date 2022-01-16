@@ -1,8 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
-import { LoginForm } from "../components/LoginForm/LoginForm";
-import { image } from "../redux/ducks/searchingHotels";
+import { LoginForm } from "../components/LoginForm";
 
 export const LoginScreen = () => {
   return (

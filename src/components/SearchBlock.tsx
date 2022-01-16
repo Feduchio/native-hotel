@@ -17,7 +17,7 @@ import { Formik } from "formik";
 import {
   getHotelsList,
   searchFormSubmit,
-} from "../../redux/ducks/searchingHotels";
+} from "../redux/ducks/searchingHotels";
 
 export const SearchBlock = () => {
   const dispatch = useDispatch();
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     opacity: 0.95,
     borderRadius: 4,
-    width:'100%'
+    width: "100%",
   },
   centeredView: {
     flex: 1,

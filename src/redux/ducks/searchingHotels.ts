@@ -15,7 +15,7 @@ const prefix = "searchingHotels/";
 /**
  * Constants
  * */
- export const image = {
+export const image = {
   uri: "https://images.unsplash.com/photo-1589876876491-df78ff60e196?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80",
 };
 export const HOTEL_LIST_ACTION = `${prefix}HOTEL_LIST_ACTION` as const;
@@ -28,7 +28,6 @@ export const ADD_FAVORITE_HOTEL_ACTION =
   `${prefix}ADD_FAVORITE_HOTEL_ACTION` as const;
 export const CLEAR_FAVORITE_HOTEL_ACTION =
   `${prefix}CLEAR_FAVORITE_HOTEL_ACTION` as const;
-
 
 /**
  * Reducer
@@ -130,7 +129,7 @@ export function addFavoriteHotel(id: AddFavoriteHotelActionPayload) {
   return { type: ADD_FAVORITE_HOTEL_ACTION, payload: id };
 }
 export function clearFavorites() {
-  return { type: CLEAR_FAVORITE_HOTEL_ACTION};
+  return { type: CLEAR_FAVORITE_HOTEL_ACTION };
 }
 
 /**
@@ -142,14 +141,15 @@ export function* hotelListSaga({
   payload: { location: string; checkIn: string; countOfDays: number };
 }): Generator<{}> {
   try {
-    const location = params.location;
-    const checkIn = params.checkIn;
-    const checkOut = moment(params.checkIn)
-      .add(params.countOfDays, "days")
-      .format("YYYY-MM-DD");
+    const location = params.location || "moscow";
+    const checkIn = params.checkIn || moment().format("YYYY-MM-DD");
+    const checkOut =
+      moment(params.checkIn)
+        .add(params.countOfDays, "days")
+        .format("YYYY-MM-DD") || moment().add(1, "days").format("YYYY-MM-DD");
 
     const hotels: any = yield call(api.hotelList, location, checkIn, checkOut);
-    
+
     yield put(hotelListSuccess(hotels));
   } catch (error: any) {
     console.log("ERROR FROM DUCK", error.response);
