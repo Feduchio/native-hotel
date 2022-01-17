@@ -16,7 +16,7 @@ import {
 } from "../redux/ducks/searchingHotels";
 import HotelCard from "./HotelCard";
 
-export const FavoriteTab = () => {
+export const FavoriteTab = ({navigation}: any) => {
   const dispatch = useDispatch();
   const favorites = useSelector(selectFavorites);
 
@@ -83,6 +83,7 @@ export const FavoriteTab = () => {
               priceAvg: number;
             }) => (
               <HotelCard
+                navigation={navigation}
                 key={item.id}
                 id={item.id}
                 checkIn={

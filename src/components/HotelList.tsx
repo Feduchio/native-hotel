@@ -10,7 +10,9 @@ import {
 } from "../redux/ducks/searchingHotels";
 import HotelCard from "./HotelCard";
 
-export default function HotelList() {
+
+
+export default function HotelList( {navigation}: any) {
   const dispatch = useDispatch();
   const hotels = useSelector(selectHotels);
   const valueSearch = useSelector(selectValueSearch);
@@ -30,6 +32,7 @@ export default function HotelList() {
     <View>
       {hotels.data?.map((item) => (
         <HotelCard
+          navigation={navigation}
           key={item.hotelId}
           id={item.hotelId}
           checkIn={
@@ -43,6 +46,7 @@ export default function HotelList() {
           stars={item.stars}
           priceAvg={item.priceAvg}
           favButtonTitle={favButtonTitle}
+          
         />
       ))}
     </View>

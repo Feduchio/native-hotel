@@ -35,30 +35,31 @@ export default function HotelCard({
   stars: number;
   priceAvg: number;
   favButtonTitle: string;
+
+  // TODO: remove that
+  navigation: any
 }) {
   const dispatch = useDispatch();
+
   const [modalVisible, setModalVisible] = useState(false);
 
   const isFav = useSelector(selectFavorites);
   const likes = isFav.map((element: { id: number }) => element.id);
+  
   const favoriteClick = (e: AddFavoriteHotelActionPayload) => {
     dispatch(addFavoriteHotel(e));
   };
-
+  
   return (
     <View style={styles.globalContainer}>
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => setModalVisible(true)}
         onLongPress={() =>
-          navigation.navigate("HotelScreen", {
-            name,
-            checkIn,
-            countOfDays,
-            stars,
-            priceAvg,
-          })
+           navigation.navigate("HotelScreen", {id: id, name: name, checkIn:checkIn, countOfDays:countOfDays, stars:stars, priceAvg:priceAvg}
+           )
         }
+        
         onPressOut={() => {
           setModalVisible(false);
         }}

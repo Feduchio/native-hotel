@@ -5,7 +5,7 @@ import { SearchBlock } from "./SearchBlock";
 import HotelList from "./HotelList";
 import { image } from "../redux/ducks/searchingHotels";
 
-export const SearchTab = () => {
+export const SearchTab = ({ navigation }: any) => {
   return (
     <ImageBackground
       source={image}
@@ -18,7 +18,7 @@ export const SearchTab = () => {
 
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
-            <HotelList />
+            <HotelList navigation={navigation} />
           </View>
         </ScrollView>
       </View>

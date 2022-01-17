@@ -30,7 +30,6 @@ export const LoginForm = () => {
 
   const formSubmitHandle = () => {
     dispatch(setUser(login));
-    console.log("asdfas");
   };
 
   return (
@@ -140,7 +139,7 @@ export const LoginForm = () => {
               <TouchableOpacity
                 disabled={!formValid}
                 style={{ opacity: !formValid ? 0.5 : 1 }}
-                onPress={() => handleSubmit}
+                onPress={handleSubmit}
               >
                 <Text style={styles.loginFormButton}> Войти </Text>
               </TouchableOpacity>

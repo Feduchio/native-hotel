@@ -2,7 +2,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import { StackParamList } from "./types";
-import { HotelScreen } from "../components/HotelScreen";
+import { HotelScreen } from "../screens/HotelScreen";
 import { SearchTab } from "../components/SearchTab";
 
 const Stack = createStackNavigator<StackParamList>();

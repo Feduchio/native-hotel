@@ -47,7 +47,7 @@ export const MainScreen = () => {
             </View>
           ),
           title: "",
-          headerTitle: "Search",
+          headerTitle: "Simple Hotel",
         }}
       />
       <Tab.Screen
